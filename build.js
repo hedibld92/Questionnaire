@@ -1,7 +1,7 @@
 'use strict';
 // Wraps src/app.html (the page content) into a complete document: public/index.html.
 // Run it after every change to src/app.html:  node build.js
-// It first checks that the field lists of server.js match the questions of src/app.html.
+// It first checks that the field lists of lib/fields.js match the questions of src/app.html.
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -15,32 +15,32 @@ function readSections(src = fs.readFileSync(SRC, 'utf8')) {
   return vm.runInNewContext(m[0] + '({ SECTIONS, PRES });');
 }
 
-// Returns the list of differences between the questions of src/app.html and the field lists of server.js.
+// Returns the list of differences between the questions of src/app.html and the field lists of lib/fields.js.
 function checkFields() {
   const { SECTIONS, PRES } = readSections();
-  const server = require('./server.js');
+  const fields = require('./lib/fields');
   const found = { yn: [], sat: [], text: [], multi: [] };
   for (const s of SECTIONS) for (const it of s.items) {
     if (it.type === 'group') for (const sub of it.items) found[it.kind]?.push(sub.id);
     else found[it.type]?.push(it.id);
   }
-  const expected = { yn: server.YN_FIELDS, sat: server.SAT_FIELDS, text: server.TEXT_FIELDS };
+  const expected = { yn: fields.YN_FIELDS, sat: fields.SAT_FIELDS, text: fields.TEXT_FIELDS };
   const names = { yn: 'YN_FIELDS', sat: 'SAT_FIELDS', text: 'TEXT_FIELDS' };
   const errors = [];
   for (const k of Object.keys(expected)) {
-    for (const id of found[k]) if (!expected[k].includes(id)) errors.push('« ' + id + ' » manque dans ' + names[k] + ' (server.js)');
-    for (const id of expected[k]) if (!found[k].includes(id)) errors.push('« ' + id + ' » est dans ' + names[k] + ' (server.js) mais pas dans src/app.html');
+    for (const id of found[k]) if (!expected[k].includes(id)) errors.push('« ' + id + ' » manque dans ' + names[k] + ' (lib/fields.js)');
+    for (const id of expected[k]) if (!found[k].includes(id)) errors.push('« ' + id + ' » est dans ' + names[k] + ' (lib/fields.js) mais pas dans src/app.html');
   }
-  if (found.multi.join() !== 'eval_presence') errors.push('server.js ne gère qu’une question à choix multiples : eval_presence');
+  if (found.multi.join() !== 'eval_presence') errors.push('lib/fields.js ne gère qu’une question à choix multiples : eval_presence');
   const pres = PRES.map(p => p[0]);
-  if (pres.join() !== server.PRESENCE.join()) errors.push('PRESENCE (server.js) doit valoir [' + pres.join(', ') + ']');
+  if (pres.join() !== fields.PRESENCE.join()) errors.push('PRESENCE (lib/fields.js) doit valoir [' + pres.join(', ') + ']');
   return errors;
 }
 
 function build() {
   const errors = checkFields();
   if (errors.length) {
-    console.error('Les champs de server.js ne correspondent plus au questionnaire :\n  - ' + errors.join('\n  - '));
+    console.error('Les champs de lib/fields.js ne correspondent plus au questionnaire :\n  - ' + errors.join('\n  - '));
     process.exit(1);
   }
   let src = fs.readFileSync(SRC, 'utf8');

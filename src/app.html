@@ -428,8 +428,9 @@ const ready = (async () => {
   if (location.protocol === 'http:' || location.protocol === 'https:') {
     try {
       const r = await fetch('api/health', { cache: 'no-store' });
-      const b = r.ok ? await r.json() : null;
-      if (b && b.ok) { store.mode = 'rest'; store.canSubmit = true; store.needsCode = !!b.code; return; }
+      const b = await r.json().catch(() => null);
+      if (r.ok && b && b.ok) { store.mode = 'rest'; store.canSubmit = true; store.needsCode = !!b.code; return; }
+      if (b && b.error) store.error = b.error; // the server answers but cannot store anything yet
     } catch {}
   }
   store.mode = 'none';
@@ -626,8 +627,8 @@ async function onSubmit(e) {
       note.replaceChildren(h('p', { class: 'notice err' }, 'Le code d’accès est manquant ou incorrect. Saisissez le code affiché dans le service, en haut du questionnaire, puis renvoyez vos réponses.'));
       return;
     }
-    const msg = err.message === 'unavailable'
-      ? 'L’envoi n’est pas disponible sur cette page d’aperçu. Vos réponses n’ont pas été enregistrées.'
+    const msg = store.error ? 'Vos réponses n’ont pas été enregistrées. ' + store.error
+      : err.message === 'unavailable' ? 'L’envoi n’est pas disponible sur cette page d’aperçu. Vos réponses n’ont pas été enregistrées.'
       : 'L’envoi a échoué (' + err.message + '). Vérifiez votre connexion puis réessayez, vos réponses sont conservées sur cet écran.';
     note.replaceChildren(h('p', { class: 'notice err' }, msg));
   }
@@ -663,6 +664,7 @@ function applyBackendToForm() {
     else st.replaceChildren();
   }
   else if (store.mode === 'claude' && store.canSubmit) st.replaceChildren(h('p', { class: 'notice' }, 'Aperçu privé : ici, seuls vous et les éditeurs de cette page pouvez enregistrer une réponse. Pour recueillir les réponses des stagiaires, utilisez la version hébergée de l’application.'));
+  else if (store.error) st.replaceChildren(h('p', { class: 'notice err' }, 'Le questionnaire n’est pas encore ouvert aux réponses. ' + store.error));
   else st.replaceChildren(h('p', { class: 'notice' }, 'Aperçu du questionnaire : sur cette page, l’envoi des réponses est réservé au propriétaire.'));
 }
 
@@ -1041,7 +1043,7 @@ function route() {
   if (store.mode === 'rest') { if (!store.token) { currentView = 'login'; return showLogin(); } renderAdmin(); if (responses == null) startAdminFeed(); return; }
   if (store.mode === 'claude' && store.isAdmin) { renderAdmin(); startAdminFeed(); return; }
   currentView = 'denied';
-  app.replaceChildren(h('div', { class: 'sheet' }, h('p', { class: 'notice' }, 'Les résultats sont réservés au propriétaire et aux éditeurs de cette page.'), h('a', { class: 'btn', href: '#questionnaire' }, 'Aller au questionnaire')));
+  app.replaceChildren(h('div', { class: 'sheet' }, h('p', { class: 'notice' }, store.error || 'Les résultats sont réservés au propriétaire et aux éditeurs de cette page.'), h('a', { class: 'btn', href: '#questionnaire' }, 'Aller au questionnaire')));
 }
 window.addEventListener('hashchange', route);
 route();

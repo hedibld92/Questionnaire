@@ -1,8 +1,9 @@
 FROM node:22-alpine
 WORKDIR /app
 COPY package.json server.js build.js ./
+COPY lib ./lib
 COPY src ./src
-# Rebuilds public/index.html and checks that server.js matches the questionnaire.
+# Rebuilds public/index.html and checks that lib/fields.js matches the questionnaire.
 RUN node build.js
 # The volume must belong to the "node" user, otherwise the server cannot write to it.
 RUN mkdir -p /data && chown node:node /data

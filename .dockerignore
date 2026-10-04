@@ -2,3 +2,7 @@ node_modules
 data
 test
 .git
+api
+scripts
+vercel.json
+.github
