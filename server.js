@@ -12,7 +12,7 @@ const fsp = require('node:fs/promises');
 const path = require('node:path');
 const { handle, send, getStore, getAuth } = require('./lib/api');
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = process.env.PORT === '0' ? 0 : Number(process.env.PORT) || 3000; // 0 = any free port (tests)
 const INDEX = path.join(__dirname, 'public', 'index.html');
 
 const server = http.createServer(async (req, res) => {
@@ -52,10 +52,10 @@ function start() {
   process.on('SIGINT', () => stop('SIGINT'));
 
   server.listen(PORT, () => {
-    const code = (process.env.ACCESS_CODE || '').trim();
+    const port = server.address().port, code = (process.env.ACCESS_CODE || '').trim();
     console.log('Stockage      : ' + (!store ? 'AUCUN (VERCEL défini sans base Redis)' : store.kind === 'redis' ? 'Upstash Redis' : 'fichier local'));
-    console.log('Questionnaire : http://localhost:' + PORT + '/' + (code ? '?code=' + encodeURIComponent(code) : ''));
-    console.log('Résultats     : http://localhost:' + PORT + '/admin');
+    console.log('Questionnaire : http://localhost:' + port + '/' + (code ? '?code=' + encodeURIComponent(code) : ''));
+    console.log('Résultats     : http://localhost:' + port + '/admin');
   });
 }
 

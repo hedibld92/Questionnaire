@@ -20,17 +20,22 @@ const today = () => new Date().toISOString().slice(0, 10);
 const CLEAN_ENV = { ACCESS_CODE: '', SESSION_SECRET: '', CRON_SECRET: '', VERCEL: '', TRUST_PROXY: '', BACKUP_DIR: '', BACKUP_KEEP: '',
   UPSTASH_REDIS_REST_URL: '', UPSTASH_REDIS_REST_TOKEN: '', KV_REST_API_URL: '', KV_REST_API_TOKEN: '' };
 
-async function startServer(env = {}) {
-  const port = 20000 + Math.floor(Math.random() * 20000);
-  const child = spawn(process.execPath, ['server.js'], { cwd: ROOT, stdio: 'ignore',
-    env: { ...process.env, ...CLEAN_ENV, PORT: String(port), DATA_DIR: tmpDir(), ADMIN_PASSWORD: 'secret', ...env } });
+// The server picks a free port (PORT=0) and prints it: "Questionnaire : http://localhost:<port>/".
+function startServer(env = {}) {
+  const child = spawn(process.execPath, ['server.js'], { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'],
+    env: { ...process.env, ...CLEAN_ENV, PORT: '0', DATA_DIR: tmpDir(), ADMIN_PASSWORD: 'secret', ...env } });
   children.push(child);
-  const s = { child, base: 'http://localhost:' + port };
-  for (let i = 0; i < 50; i++) {
-    try { await fetch(s.base + '/api/health'); return s; } catch {}
-    await new Promise(r => setTimeout(r, 100));
-  }
-  throw new Error('le serveur ne démarre pas');
+  return new Promise((resolve, reject) => {
+    let out = '';
+    const timer = setTimeout(() => reject(new Error('le serveur ne démarre pas :\n' + out)), 10000);
+    child.stderr.on('data', d => { out += d; });
+    child.stdout.on('data', d => {
+      out += d;
+      const m = /Questionnaire : http:\/\/localhost:(\d+)\//.exec(out);
+      if (m) { clearTimeout(timer); resolve({ child, base: 'http://127.0.0.1:' + m[1] }); }
+    });
+    child.once('exit', c => { clearTimeout(timer); reject(new Error('le serveur s’est arrêté (' + c + ') :\n' + out)); });
+  });
 }
 async function stopServer(s) {
   if (s.child.exitCode != null || s.child.signalCode != null) return;

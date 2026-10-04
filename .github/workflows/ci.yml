@@ -6,6 +6,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         node: [18, 22]
     steps:
@@ -13,8 +14,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - name: Build (vérifie aussi les champs de server.js)
+      - name: Build (vérifie aussi les champs de lib/fields.js)
         run: node build.js
       - name: public/index.html doit être à jour
         run: git diff --exit-code public/index.html
-      - run: npm test
+      - name: Tests
+        run: |
+          set -o pipefail
+          node --test --test-reporter=tap 2>&1 | tee tap.txt
+      - name: Détail des tests en échec
+        if: failure()
+        run: |
+          # one annotation per failed test, readable on the run page
+          node -e "
+            const t = require('fs').readFileSync('tap.txt', 'utf8').split('\n');
+            t.forEach((l, i) => { if (/^\s*not ok/.test(l)) console.log('::error title=' + l.trim().replace(/[:,]/g, ' ') + '::' + t.slice(i + 1, i + 25).join('%0A')); });
+          "
