@@ -1,0 +1,1065 @@
+<title>Questionnaire fin de stage HGE</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap">
+<style>
+/* Layout: the form is one paper-width column of tick-box questions, numbered as on the original sheet;
+   the results are a wide tabbed board, filters in one row above everything they scope. */
+:root {
+  --bg: #f0f4f4; --surface: #fcfdfd; --surface-2: #f4f8f8;
+  --ink: #0f1f20; --ink-2: #41555a; --ink-3: #5f7275;
+  --line: #dbe4e4; --line-2: #b6c5c6;
+  --accent: #0d6b68; --accent-ink: #ffffff; --accent-soft: #dcefed;
+  --danger: #b3261e; --danger-soft: #fbe9e7;
+  --c-yes: #2a78d6; --c-yes-t: #ffffff;
+  --c-mid: #1baf7a; --c-mid-t: #0b1416;
+  --c-no: #eb6834; --c-no-t: #0b1416;
+  --seq-1: #cde2fb; --seq-2: #9ec5f4; --seq-3: #6da7ec; --seq-4: #3987e5; --seq-5: #1c5cab;
+  --seq-t-1: #0b1416; --seq-t-2: #0b1416; --seq-t-3: #0b1416; --seq-t-4: #0b1416; --seq-t-5: #ffffff;
+  --shadow: 0 1px 2px rgba(15, 31, 32, .06), 0 8px 24px -12px rgba(15, 31, 32, .18);
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1314; --surface: #161d1e; --surface-2: #1c2526;
+    --ink: #edf3f2; --ink-2: #b3c2c2; --ink-3: #8a9c9d;
+    --line: #263132; --line-2: #3d4c4e;
+    --accent: #55c2b8; --accent-ink: #06211f; --accent-soft: #17302e;
+    --danger: #f2877f; --danger-soft: #3a1c1a;
+    --c-yes: #3987e5; --c-yes-t: #0b1416;
+    --c-mid: #199e70; --c-mid-t: #0b1416;
+    --c-no: #d95926; --c-no-t: #0b1416;
+    --seq-1: #0d366b; --seq-2: #184f95; --seq-3: #256abf; --seq-4: #3987e5; --seq-5: #86b6ef;
+    --seq-t-1: #ffffff; --seq-t-2: #ffffff; --seq-t-3: #ffffff; --seq-t-4: #0b1416; --seq-t-5: #0b1416;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1314; --surface: #161d1e; --surface-2: #1c2526;
+  --ink: #edf3f2; --ink-2: #b3c2c2; --ink-3: #8a9c9d;
+  --line: #263132; --line-2: #3d4c4e;
+  --accent: #55c2b8; --accent-ink: #06211f; --accent-soft: #17302e;
+  --danger: #f2877f; --danger-soft: #3a1c1a;
+  --c-yes: #3987e5; --c-yes-t: #0b1416;
+  --c-mid: #199e70; --c-mid-t: #0b1416;
+  --c-no: #d95926; --c-no-t: #0b1416;
+  --seq-1: #0d366b; --seq-2: #184f95; --seq-3: #256abf; --seq-4: #3987e5; --seq-5: #86b6ef;
+  --seq-t-1: #ffffff; --seq-t-2: #ffffff; --seq-t-3: #ffffff; --seq-t-4: #0b1416; --seq-t-5: #0b1416;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .6);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.5 var(--font-body); -webkit-text-size-adjust: 100%; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- top bar ---------- */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+.top-in { max-width: 1180px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 15px; min-width: 0; }
+.brand-mark { width: 22px; height: 22px; border: 2px solid var(--accent); border-radius: 5px; display: grid; place-items: center; flex: none; }
+.brand-mark::after { content: ""; width: 10px; height: 5px; border-left: 2.5px solid var(--accent); border-bottom: 2.5px solid var(--accent); transform: translateY(-1.5px) rotate(-45deg); }
+.brand small { font-family: var(--font-body); font-weight: 400; color: var(--ink-3); font-size: 13px; }
+.nav { margin-left: auto; display: flex; gap: 4px; }
+.nav a { text-decoration: none; color: var(--ink-2); padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; }
+.nav a[aria-current="page"] { background: var(--accent-soft); color: var(--ink); }
+.progress { height: 3px; background: var(--line); }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s ease; }
+@media (prefers-reduced-motion: reduce) { .progress i { transition: none; } }
+
+/* ---------- form ---------- */
+.sheet { max-width: 720px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; display: flex; flex-direction: column; gap: 20px; }
+.intro { display: flex; flex-direction: column; gap: 12px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; }
+.intro h1 { font-size: clamp(30px, 6.5vw, 44px); letter-spacing: -.02em; }
+.lead { color: var(--ink-2); max-width: 60ch; font-size: 17px; }
+.anon { display: flex; gap: 12px; align-items: flex-start; background: var(--accent-soft); border-radius: var(--r); padding: 12px 14px; font-size: 15px; }
+.anon b { font-family: var(--font-display); }
+.anon-ico { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--accent); position: relative; margin-top: 1px; }
+.anon-ico::before { content: ""; position: absolute; left: -3px; right: -3px; top: 8px; height: 2px; background: var(--accent); transform: rotate(-38deg); }
+.notice { border: 1px solid var(--line-2); border-radius: var(--r); padding: 12px 14px; font-size: 15px; color: var(--ink-2); background: var(--surface); }
+.notice.err { border-color: var(--danger); background: var(--danger-soft); color: var(--ink); }
+
+.sec { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+.sec-head { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); display: flex; align-items: baseline; gap: 12px; }
+.sec-head h2 { font-size: 22px; letter-spacing: -.01em; }
+.sec-head span { margin-left: auto; font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sec-body { display: flex; flex-direction: column; }
+.q { border: 0; margin: 0; padding: 18px 20px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.q + .q { border-top: 1px solid var(--line); }
+.q.sub { padding-top: 0; border-top: 0; margin-top: -4px; }
+.q-label { padding: 0; font-weight: 700; font-size: 16.5px; line-height: 1.35; display: block; }
+.q-label .num { display: inline-block; min-width: 1.9em; color: var(--accent); font-family: var(--font-display); }
+.q-label .req { color: var(--danger); margin-left: 4px; }
+.q-hint { font-size: 14px; color: var(--ink-3); margin-top: -6px; }
+.q-err { font-size: 14px; color: var(--danger); font-weight: 700; }
+.q.invalid { box-shadow: inset 3px 0 0 var(--danger); }
+
+.seg { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { position: relative; display: inline-flex; }
+.opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.opt span { display: inline-flex; align-items: center; gap: 9px; min-height: 42px; padding: 8px 14px 8px 11px; border: 1.5px solid var(--line-2); border-radius: 8px; background: var(--surface); font-size: 15.5px; line-height: 1.2; user-select: none; }
+.opt span::before { content: ""; flex: none; width: 17px; height: 17px; border: 1.5px solid var(--ink-3); border-radius: 4px; background: var(--surface); }
+.opt input:checked + span { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.opt input:checked + span::before { border-color: var(--accent); background: var(--accent); box-shadow: inset 0 0 0 3px var(--surface); }
+.opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.opt:hover span { border-color: var(--accent); }
+.opt.num span { padding: 8px 0; min-width: 44px; justify-content: center; font-variant-numeric: tabular-nums; font-weight: 700; }
+.opt.num span::before { display: none; }
+.opt.num input:checked + span { background: var(--accent); color: var(--accent-ink); }
+.scale { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; }
+.scale .opt, .scale .opt span { width: 100%; }
+.scale-ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-3); margin-top: -4px; }
+@media (max-width: 520px) { .scale { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
+.rows { display: flex; flex-direction: column; }
+.row { display: flex; align-items: center; gap: 10px 16px; padding: 10px 0; flex-wrap: wrap; }
+.row + .row { border-top: 1px dashed var(--line); }
+.row-label { flex: 1 1 220px; min-width: 0; font-size: 15.5px; }
+.row .seg { flex: none; }
+.row .opt span { min-height: 38px; }
+@media (max-width: 520px) { .row .seg { width: 100%; } .row.sat .opt { flex: 1 1 100%; } .row.sat .opt span { width: 100%; } }
+
+.field { width: 100%; border: 1.5px solid var(--line-2); border-radius: 8px; background: var(--surface); padding: 10px 12px; min-height: 44px; resize: vertical; }
+.field:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.field-label { font-size: 15px; font-weight: 700; color: var(--ink-2); }
+
+.actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.btn { appearance: none; border: 1.5px solid var(--line-2); background: var(--surface); border-radius: 9px; padding: 9px 16px; min-height: 42px; font-weight: 700; font-size: 15px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-size: 17px; padding: 12px 24px; min-height: 50px; }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.small { min-height: 34px; padding: 5px 12px; font-size: 14px; }
+.btn.danger { color: var(--danger); border-color: var(--danger); }
+.btn[disabled] { opacity: .55; cursor: not-allowed; }
+.link { background: none; border: 0; padding: 0; color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; font-size: inherit; }
+.foot { font-size: 13.5px; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; }
+.foot a { color: var(--ink-3); }
+
+.thanks { text-align: left; padding: 36px 24px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+.thanks h1 { font-size: clamp(30px, 6.5vw, 44px); letter-spacing: -.02em; }
+.thanks .big-check { width: 54px; height: 54px; border-radius: 12px; background: var(--accent); display: grid; place-items: center; }
+.thanks .big-check::after { content: ""; width: 24px; height: 12px; border-left: 4px solid var(--accent-ink); border-bottom: 4px solid var(--accent-ink); transform: translateY(-3px) rotate(-45deg); }
+
+/* ---------- results ---------- */
+.board { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 64px; display: flex; flex-direction: column; gap: 18px; }
+.board-head { display: flex; align-items: flex-end; gap: 12px 24px; flex-wrap: wrap; }
+.board-head h1 { font-size: clamp(26px, 4.5vw, 34px); letter-spacing: -.02em; }
+.board-head p { color: var(--ink-2); font-size: 15px; }
+.board-tools { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.banner { border: 1.5px dashed var(--accent); background: var(--accent-soft); border-radius: var(--r); padding: 10px 14px; font-size: 15px; display: flex; gap: 8px 16px; align-items: center; flex-wrap: wrap; }
+.banner b { font-family: var(--font-display); }
+.filters { display: flex; gap: 10px 14px; flex-wrap: wrap; align-items: flex-end; }
+.filters label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; min-width: 0; }
+.filters select, .ctl { border: 1.5px solid var(--line-2); border-radius: 8px; background: var(--surface); padding: 7px 10px; min-height: 38px; font-size: 15px; max-width: 100%; text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--ink); }
+.filters .count { margin-left: auto; font-size: 14px; color: var(--ink-2); align-self: center; }
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line-2); overflow-x: auto; scrollbar-width: none; }
+.tabs button { appearance: none; background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font-weight: 700; font-size: 15px; color: var(--ink-2); cursor: pointer; white-space: nowrap; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.card { container-type: inline-size; grid-column: span 12; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.card.half { grid-column: span 6; }
+.card.third { grid-column: span 4; }
+.card.two-third { grid-column: span 8; }
+@media (max-width: 860px) { .card.half, .card.third, .card.two-third { grid-column: span 12; } }
+.card-head { display: flex; flex-direction: column; gap: 2px; }
+.card h3 { font-size: 17px; letter-spacing: -.005em; }
+.card .sub { font-size: 13.5px; color: var(--ink-3); }
+.empty { color: var(--ink-3); font-size: 15px; padding: 18px 0; }
+
+.kpis { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.kpi .k-label { font-size: 13.5px; color: var(--ink-2); }
+.kpi .k-val { font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; }
+.kpi .k-val small { font-size: 15px; font-weight: 400; color: var(--ink-3); margin-left: 3px; }
+.kpi .k-sub { font-size: 13px; color: var(--ink-3); }
+.kpi.hero { background: var(--accent-soft); border-color: transparent; }
+.kpi.hero .k-val { font-size: 48px; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }
+.sw-yes { background: var(--c-yes); } .sw-mid { background: var(--c-mid); } .sw-no { background: var(--c-no); }
+
+.srows { display: flex; flex-direction: column; gap: 10px; }
+.srow { display: grid; grid-template-columns: minmax(0, 230px) minmax(0, 1fr) minmax(76px, auto); gap: 4px 14px; align-items: center; }
+.srow-label { font-size: 14.5px; min-width: 0; }
+.srow-meta { font-size: 13px; color: var(--ink-3); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sbar { display: flex; gap: 2px; height: 22px; min-width: 0; }
+.sbar > span { min-width: 3px; display: grid; place-items: center; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sbar > span:first-child { border-radius: 4px 0 0 4px; } .sbar > span:last-child { border-radius: 0 4px 4px 0; }
+.sbar > span:only-child { border-radius: 4px; }
+.sbar .yes { background: var(--c-yes); color: var(--c-yes-t); }
+.sbar .mid { background: var(--c-mid); color: var(--c-mid-t); }
+.sbar .no { background: var(--c-no); color: var(--c-no-t); }
+.sbar.none { background: var(--surface-2); border-radius: 4px; }
+[data-tip]:hover, [data-tip]:focus-visible { filter: brightness(1.12); }
+@container (max-width: 520px) { .srow { grid-template-columns: minmax(0, 1fr) auto; } .srow .sbar { grid-column: 1 / -1; order: 3; } }
+
+.hrows { display: flex; flex-direction: column; gap: 9px; }
+.hrow { display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr) 96px; gap: 4px 12px; align-items: center; font-size: 14.5px; }
+.hrow .track { height: 12px; min-width: 0; }
+.hrow .bar { height: 100%; background: var(--c-yes); border-radius: 0 4px 4px 0; min-width: 2px; }
+.hrow .val { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hrow .val small { color: var(--ink-3); margin-left: 6px; }
+@container (max-width: 520px) { .hrow { grid-template-columns: minmax(0, 1fr) auto; } .hrow .track { grid-column: 1 / -1; order: 3; } }
+
+.cols { display: flex; align-items: flex-end; gap: 2px; height: 150px; border-bottom: 1px solid var(--line-2); }
+.col { flex: 1 1 0; min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+.col-val { font-size: 11.5px; color: var(--ink-2); line-height: 18px; font-variant-numeric: tabular-nums; }
+.col-bar { width: min(24px, 72%); background: var(--c-yes); border-radius: 4px 4px 0 0; }
+.cols-x { display: flex; gap: 2px; }
+.cols-x span { flex: 1 1 0; min-width: 0; text-align: center; font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; overflow: visible; white-space: nowrap; }
+
+.line { position: relative; height: 170px; margin-left: 26px; border-bottom: 1px solid var(--line-2); }
+.line .gl { position: absolute; left: 0; right: 0; border-top: 1px solid var(--line); }
+.line .gl span { position: absolute; left: -26px; top: -8px; width: 20px; text-align: right; font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.line svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.line svg polyline { fill: none; stroke: var(--c-yes); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.line .pt { position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; display: grid; place-items: center; }
+.line .pt::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c-yes); box-shadow: 0 0 0 2px var(--surface); }
+.line .end { position: absolute; font-size: 12.5px; font-weight: 700; transform: translate(-50%, -26px); white-space: nowrap; }
+.line-x { margin-left: 26px; }
+
+.dumb-axis, .dumb { display: grid; grid-template-columns: minmax(0, 230px) minmax(0, 1fr) 118px; gap: 12px; align-items: center; }
+.dumb-axis .ticks { position: relative; height: 16px; }
+.dumb-axis .ticks span { position: absolute; transform: translateX(-50%); font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.dumb { font-size: 14.5px; padding: 5px 0; border-top: 1px solid var(--line); }
+.dumb.weak { color: var(--ink-3); }
+.dumb .trk { position: relative; height: 24px; }
+.dumb .trk::before { content: ""; position: absolute; left: 0; right: 0; top: 11.5px; border-top: 1px solid var(--line); }
+.dumb .join { position: absolute; top: 11px; height: 2px; background: var(--line-2); }
+.dumb .dot { position: absolute; top: 0; width: 24px; height: 24px; margin-left: -12px; display: grid; place-items: center; }
+.dumb .dot::after { content: ""; width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 2px var(--surface); }
+.dumb .dot.y::after { background: var(--c-yes); } .dumb .dot.n::after { background: var(--c-no); }
+.dumb .gap { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.dumb .gap small { display: block; color: var(--ink-3); font-size: 12px; }
+@container (max-width: 560px) { .dumb-axis, .dumb { grid-template-columns: minmax(0, 1fr) auto; } .dumb .trk, .dumb-axis .ticks { grid-column: 1 / -1; order: 3; } .dumb-axis > :first-child, .dumb-axis > :last-child { display: none; } }
+
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+th button { all: unset; cursor: pointer; }
+th button:focus-visible { outline: 2px solid var(--accent); }
+tr.clk { cursor: pointer; } tr.clk:hover td { background: var(--surface-2); }
+.heat td.cell { text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; border: 2px solid var(--surface); border-radius: 6px; min-width: 76px; }
+.heat td.cell.na { color: var(--ink-3); font-weight: 400; background: var(--surface-2); }
+.pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 13px; background: var(--surface-2); border: 1px solid var(--line); white-space: nowrap; }
+
+.insight { display: flex; flex-direction: column; gap: 10px; }
+.insight li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; font-size: 14.5px; }
+.insight ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.insight .meter { grid-column: 1 / -1; height: 6px; background: var(--surface-2); border-radius: 3px; }
+.insight .meter i { display: block; height: 100%; border-radius: 3px; background: var(--c-yes); }
+.insight .meter.low i { background: var(--c-no); }
+.insight b { font-variant-numeric: tabular-nums; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { appearance: none; border: 1.5px solid var(--line-2); background: var(--surface); border-radius: 999px; padding: 5px 12px; font-size: 14px; cursor: pointer; color: var(--ink); }
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); font-weight: 700; }
+.chip small { color: var(--ink-3); margin-left: 5px; }
+.quotes { display: flex; flex-direction: column; }
+.quote { padding: 12px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+.quote p { font-size: 16px; max-width: 70ch; overflow-wrap: anywhere; white-space: pre-wrap; }
+.quote span { font-size: 13px; color: var(--ink-3); }
+.detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px 28px; padding: 8px 2px 4px; }
+.detail h4 { font-family: var(--font-display); font-size: 14px; margin: 0 0 6px; }
+.detail dl { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; font-size: 14px; }
+.detail dt { color: var(--ink-3); } .detail dd { margin: 0 0 4px; overflow-wrap: anywhere; white-space: pre-wrap; }
+details.figs summary { cursor: pointer; font-size: 13.5px; color: var(--ink-3); }
+details.figs table { margin-top: 8px; font-size: 13.5px; }
+
+.login { max-width: 420px; margin: 8vh auto 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); }
+.login h1 { font-size: 24px; }
+.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--surface); border-radius: 8px; padding: 7px 10px; font-size: 13px; line-height: 1.35; max-width: 260px; box-shadow: var(--shadow); }
+.tip b { font-size: 15px; display: block; }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--surface); padding: 10px 16px; border-radius: 10px; font-size: 14.5px; z-index: 60; max-width: calc(100% - 32px); }
+@media print { .top, .tabs, .filters, .board-tools, .banner, .foot { display: none !important; } body { background: #fff; } .card, .kpi { break-inside: avoid; } }
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Fin de stage <small>HGE · Louis-Mourier</small></span></div>
+    <nav class="nav" id="nav" hidden aria-label="Navigation">
+      <a href="#questionnaire" id="nav-form">Questionnaire</a>
+      <a href="#resultats" id="nav-admin">Résultats</a>
+    </nav>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"><i></i></div>
+</header>
+<main id="app"></main>
+<div class="tip" id="tip" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= helpers ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  if (attrs) for (const k in attrs) {
+    const v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'style') el.style.cssText = v;
+    else if (k === 'tip') { el._tip = v; el.setAttribute('data-tip', ''); el.tabIndex = 0; }
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat(Infinity)) {
+    if (kid == null || kid === false) continue;
+    el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const NB = ' ';
+const fmt1 = v => v == null ? '–' : v.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const fmtPct = v => v == null ? '–' : Math.round(v * 100) + NB + '%';
+const plural = (n, s, p) => n + NB + (n > 1 ? (p || s + 's') : s);
+const monthNow = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); };
+const monthLabel = (m, long) => { if (!m) return '–'; const [y, mo] = m.split('-').map(Number); return new Date(y, mo - 1, 1).toLocaleDateString('fr-FR', long ? { month: 'long', year: 'numeric' } : { month: 'short', year: '2-digit' }); };
+const addMonths = (m, k) => { const [y, mo] = m.split('-').map(Number); const d = new Date(y, mo - 1 + k, 1); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); };
+const newId = () => { const a = new Uint8Array(12); crypto.getRandomValues(a); return [...a].map(b => b.toString(16).padStart(2, '0')).join(''); };
+const ls = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} }, del(k) { try { localStorage.removeItem(k); } catch {} } };
+const ss = { get(k) { try { return sessionStorage.getItem(k); } catch { return null; } }, set(k, v) { try { sessionStorage.setItem(k, v); } catch {} }, del(k) { try { sessionStorage.removeItem(k); } catch {} } };
+let toastTimer;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 3500); }
+
+/* ================= questionnaire (from the paper form) ================= */
+const YN = [['oui', 'Oui'], ['non', 'Non']];
+const SAT = [['tres', 'Très satisfaisant'], ['sat', 'Satisfaisant'], ['peu', 'Peu satisfaisant']];
+const PRES = [['cadre', 'Cadre du service'], ['tuteur', 'Tuteur'], ['equipe', 'Équipe soignante'], ['etudiant', 'Étudiant']];
+const SECTIONS = [
+  { id: 'profil', title: 'Votre formation', items: [
+    { id: 'formation', type: 'choice', label: 'Formation', short: 'Formation', required: true, other: true,
+      options: ['Infirmier(e) (IFSI)', 'Aide-soignant(e) (IFAS)', 'Médecine (externe)'] },
+    { id: 'annee', type: 'choice', label: 'Année d’étude', short: 'Année d’étude', required: true,
+      options: ['1re année', '2e année', '3e année', '4e année', '5e année', '6e année'] },
+  ] },
+  { id: 'accueil', title: 'L’accueil', items: [
+    { id: 'accueil', type: 'yn', num: 'I', label: 'Avez-vous bénéficié d’un accueil ?', short: 'Accueil à l’arrivée' },
+    { id: 'accueil_par_qui', type: 'text', label: 'Si oui, par qui ?', short: 'Accueil : par qui ?', showIf: ['accueil', 'oui'], rows: 1 },
+    { type: 'group', kind: 'yn', num: 'II', label: 'Avez-vous reçu les informations concernant :', items: [
+      { id: 'info_etablissement', label: 'L’organisation de l’établissement', short: 'Organisation de l’établissement' },
+      { id: 'info_fonctionnement', label: 'Le fonctionnement du service', short: 'Fonctionnement du service' },
+      { id: 'info_specificite', label: 'La spécificité du service', short: 'Spécificité du service' },
+      { id: 'info_soins', label: 'L’organisation des soins', short: 'Organisation des soins' },
+      { id: 'info_outils', label: 'Les outils et protocoles de soins', short: 'Outils et protocoles de soins' },
+      { id: 'info_equipe', label: 'La composition de l’équipe', short: 'Composition de l’équipe' },
+      { id: 'info_planning', label: 'Votre planning de stage (horaires, repas…)', short: 'Planning de stage' },
+      { id: 'info_badge', label: 'Un badge nominatif', short: 'Badge nominatif' },
+    ] },
+  ] },
+  { id: 'encadrement', title: 'L’encadrement', items: [
+    { id: 'tuteur', type: 'yn', num: 'I', label: 'Un tuteur a-t-il été désigné pour vous accompagner au cours du stage ?', short: 'Tuteur désigné' },
+    { id: 'objectifs', type: 'yn', num: 'II', label: 'Avez-vous élaboré des objectifs de stage ?', short: 'Objectifs de stage élaborés' },
+    { id: 'objectifs_presentes', type: 'text', label: 'Si oui, ces objectifs ont été présentés à qui ?', short: 'Objectifs présentés à', showIf: ['objectifs', 'oui'], rows: 1 },
+    { id: 'bilan', type: 'yn', num: 'III', label: 'Le bilan de mi-stage a-t-il été effectué ?', short: 'Bilan de mi-stage effectué' },
+    { id: 'bilan_par_qui', type: 'text', label: 'Si oui, par qui ?', short: 'Bilan de mi-stage : par qui ?', showIf: ['bilan', 'oui'], rows: 1 },
+    { id: 'eval_presence', type: 'multi', num: 'IV', label: 'L’évaluation de mi-stage a été faite en présence de :', hint: 'Plusieurs réponses possibles.', options: PRES, short: 'Présents à l’évaluation de mi-stage' },
+  ] },
+  { id: 'bilan', title: 'Bilan d’apprentissage', items: [
+    { type: 'group', kind: 'sat', label: 'Le développement de vos acquis au cours du stage', items: [
+      { id: 'acquis_base', label: 'Des soins de base', short: 'Soins de base' },
+      { id: 'acquis_techniques', label: 'Des soins techniques', short: 'Soins techniques' },
+      { id: 'acquis_relationnels', label: 'Des soins relationnels', short: 'Soins relationnels' },
+      { id: 'acquis_educatifs', label: 'Des soins éducatifs', short: 'Soins éducatifs' },
+    ] },
+    { id: 'competences', type: 'text', label: 'Quelles compétences particulières avez-vous pu acquérir ou développer pendant le stage ?', short: 'Compétences acquises', rows: 3 },
+    { id: 'objectifs_atteints', type: 'yn', label: 'Avez-vous atteint vos objectifs ?', short: 'Objectifs atteints' },
+    { id: 'objectifs_pourquoi', type: 'text', label: 'Si non, pourquoi ?', short: 'Objectifs non atteints : pourquoi ?', showIf: ['objectifs_atteints', 'non'], rows: 2 },
+    { id: 'difficultes', type: 'yn', label: 'Avez-vous rencontré des difficultés durant le stage ?', short: 'Difficultés rencontrées' },
+    { id: 'difficultes_lesquelles', type: 'text', label: 'Si oui, lesquelles ?', short: 'Difficultés : lesquelles ?', showIf: ['difficultes', 'oui'], rows: 2 },
+    { id: 'suggestions', type: 'text', label: 'Avez-vous des suggestions ou des propositions à nous soumettre afin d’améliorer la prise en charge des stagiaires ?', short: 'Suggestions', rows: 3 },
+    { id: 'plus_apprecie', type: 'text', label: 'Pouvez-vous préciser ce que vous avez le plus apprécié ?', short: 'Le plus apprécié', rows: 3 },
+    { id: 'moins_apprecie', type: 'text', label: 'Et le moins apprécié ?', short: 'Le moins apprécié', rows: 3 },
+    { id: 'note', type: 'note', label: 'Donnez une note globale entre 1 et 10', short: 'Note globale', required: true },
+  ] },
+];
+const Q = [];
+for (const s of SECTIONS) for (const it of s.items) {
+  if (it.type === 'group') for (const sub of it.items) Q.push({ ...sub, type: it.kind, section: s.id, group: it.label });
+  else Q.push({ ...it, section: s.id });
+}
+const QBY = Object.fromEntries(Q.map(q => [q.id, q]));
+const CLOSED = Q.filter(q => ['yn', 'sat', 'choice', 'note'].includes(q.type));
+const YNQ = Q.filter(q => q.type === 'yn');
+const SATQ = Q.filter(q => q.type === 'sat');
+const TEXTQ = Q.filter(q => q.type === 'text');
+const INFO_IDS = Q.filter(q => q.id.startsWith('info_')).map(q => q.id);
+const SATV = { tres: 3, sat: 2, peu: 1 };
+const labelOf = (pairs, v) => (pairs.find(p => p[0] === v) || [, v])[1];
+
+/* ================= storage backends ================= */
+// 'claude' : page published as an artifact, data in its shared database (owner and editors only).
+// 'rest'   : the standalone server shipped with this project (anonymous public form + password-protected results).
+const store = { mode: 'pending', isAdmin: false, canSubmit: false, db: null, downloads: null, token: ss.get('fds-token'), unsub: null, needsCode: false, code: ss.get('fds-code') || '' };
+// The access code usually comes from the QR code link (?code=...): keep it for the session, then remove it from the address bar.
+{
+  const u = new URL(location.href), c = u.searchParams.get('code');
+  if (c) { store.code = c.trim(); ss.set('fds-code', store.code); u.searchParams.delete('code'); try { history.replaceState(null, '', u.pathname + u.search + u.hash); } catch {} }
+}
+let responses = null;            // null = not loaded
+const DRAFT_KEY = 'fds-draft-v1';
+
+const ready = (async () => {
+  if (window.claude && typeof window.claude.use === 'function') {
+    try {
+      const [db, user, downloads] = await Promise.all([window.claude.use('db'), window.claude.use('user'), window.claude.use('downloads')]);
+      if (db) {
+        store.mode = 'claude'; store.db = db; store.downloads = downloads;
+        store.isAdmin = user ? await user.canEdit() : false;
+        store.canSubmit = store.isAdmin;
+        return;
+      }
+    } catch {}
+    store.mode = 'none';
+    return;
+  }
+  if (location.protocol === 'http:' || location.protocol === 'https:') {
+    try {
+      const r = await fetch('api/health', { cache: 'no-store' });
+      const b = r.ok ? await r.json() : null;
+      if (b && b.ok) { store.mode = 'rest'; store.canSubmit = true; store.needsCode = !!b.code; return; }
+    } catch {}
+  }
+  store.mode = 'none';
+})();
+
+async function api(path, opts = {}) {
+  const headers = { ...(opts.body ? { 'Content-Type': 'application/json' } : {}), ...(store.token ? { Authorization: 'Bearer ' + store.token } : {}) };
+  const r = await fetch(path, { ...opts, headers, cache: 'no-store' });
+  if (r.status === 401) { store.token = null; ss.del('fds-token'); }
+  let body = null; try { body = await r.json(); } catch {}
+  if (!r.ok) { const e = new Error((body && body.error) || 'Erreur ' + r.status); e.status = r.status; throw e; }
+  return body;
+}
+async function submitResponse(data) {
+  await ready;
+  if (store.mode === 'rest') return api('api/responses', { method: 'POST', body: JSON.stringify(store.needsCode ? { ...data, code: store.code } : data) });
+  if (store.mode === 'claude' && store.canSubmit) return store.db.collection('responses').doc(newId()).set({ ...data, mois: monthNow(), v: 1 });
+  throw new Error('unavailable');
+}
+function startAdminFeed() {
+  if (store.mode === 'claude') {
+    if (store.unsub) return;
+    store.unsub = store.db.collection('responses').limit(1000).onSnapshot(
+      snap => { responses = snap.docs.map(d => ({ ...d.data(), id: d.id })); renderAdmin(); },
+      () => { store.unsub = null; if (responses == null) { responses = []; renderAdmin(); } toast('La mise à jour en direct s’est arrêtée. Rechargez la page.'); });
+  } else if (store.mode === 'rest') { refreshRest(); }
+}
+async function refreshRest(silent) {
+  if (!store.token) return;
+  try { const r = await api('api/responses'); responses = r.responses; renderAdmin(); if (silent === false) toast('Données à jour'); }
+  catch (e) { if (e.status === 401) route(); else toast('Chargement impossible : ' + e.message); }
+}
+async function deleteResponse(id) {
+  if (store.mode === 'claude') return store.db.doc('responses/' + id).delete();
+  await api('api/responses/' + encodeURIComponent(id), { method: 'DELETE' });
+  responses = responses.filter(r => r.id !== id); renderAdmin();
+}
+
+/* ================= form ================= */
+const app = $('#app');
+let formEl = null, confirmArmed = false;
+
+function optInput(type, name, value, label, cls, key) {
+  const id = 'q-' + name + '-' + (key == null ? value : key);
+  return h('label', { class: 'opt' + (cls ? ' ' + cls : '') }, h('input', { type, name, value, id }), h('span', null, label));
+}
+function qLabel(it, tag) {
+  return h(tag || 'legend', { class: 'q-label', id: 'lbl-' + it.id }, it.num ? h('span', { class: 'num' }, it.num + '.') : null, it.label, it.required ? h('span', { class: 'req', title: 'Réponse obligatoire' }, '*') : null);
+}
+function renderItem(it) {
+  if (it.type === 'group') {
+    const pairs = it.kind === 'yn' ? YN : SAT;
+    return h('fieldset', { class: 'q' }, qLabel({ ...it, id: 'grp-' + it.items[0].id }),
+      h('div', { class: 'rows' }, it.items.map(sub => h('div', { class: 'row' + (it.kind === 'sat' ? ' sat' : ''), role: 'radiogroup', 'aria-labelledby': 'lbl-' + sub.id, 'data-q': sub.id },
+        h('span', { class: 'row-label', id: 'lbl-' + sub.id }, sub.label),
+        h('div', { class: 'seg' }, pairs.map(([v, l]) => optInput('radio', sub.id, v, l)))))));
+  }
+  if (it.type === 'text') {
+    return h('div', { class: 'q' + (it.showIf ? ' sub' : ''), 'data-q': it.id, 'data-show-if': it.showIf ? it.showIf.join('=') : null, hidden: !!it.showIf },
+      h('label', { class: it.showIf ? 'field-label' : 'q-label', for: 'q-' + it.id }, it.label),
+      it.rows === 1 ? h('input', { class: 'field', type: 'text', id: 'q-' + it.id, name: it.id, maxlength: 200, autocomplete: 'off' })
+        : h('textarea', { class: 'field', id: 'q-' + it.id, name: it.id, rows: it.rows || 3, maxlength: 1500 }));
+  }
+  const box = h('fieldset', { class: 'q', 'data-q': it.id }, qLabel(it));
+  if (it.hint) box.append(h('p', { class: 'q-hint' }, it.hint));
+  if (it.type === 'yn') box.append(h('div', { class: 'seg' }, YN.map(([v, l]) => optInput('radio', it.id, v, l))));
+  else if (it.type === 'multi') box.append(h('div', { class: 'seg' }, it.options.map(([v, l]) => optInput('checkbox', it.id, v, l))));
+  else if (it.type === 'choice') {
+    box.append(h('div', { class: 'seg' }, it.options.map((o, i) => optInput('radio', it.id, o, o, null, i)),
+      it.other ? optInput('radio', it.id, '__autre', 'Autre', null, 'autre') : null));
+    if (it.other) box.append(h('input', { class: 'field', type: 'text', id: 'q-' + it.id + '-autre-txt', name: it.id + '_autre', maxlength: 80, placeholder: 'Précisez votre formation', 'aria-label': 'Autre formation, précisez', hidden: true, autocomplete: 'off' }));
+  } else if (it.type === 'note') {
+    box.append(h('div', { class: 'scale' }, Array.from({ length: 10 }, (_, i) => optInput('radio', it.id, String(i + 1), String(i + 1), 'num'))),
+      h('div', { class: 'scale-ends' }, h('span', null, '1 : très insatisfait(e)'), h('span', null, '10 : très satisfait(e)')));
+  }
+  return box;
+}
+
+function buildForm() {
+  formEl = h('form', { class: 'sheet', id: 'form', novalidate: true, onsubmit: onSubmit },
+    h('div', { class: 'intro' },
+      h('p', { class: 'eyebrow' }, 'Hôpital Louis-Mourier · Service d’hépato-gastro-entérologie'),
+      h('h1', null, 'Questionnaire de fin de stage'),
+      h('p', { class: 'lead' }, 'Votre retour aide l’équipe à améliorer l’accueil et l’encadrement des prochains stagiaires. Comptez environ cinq minutes.'),
+      h('div', { class: 'anon' }, h('span', { class: 'anon-ico', 'aria-hidden': 'true' }),
+        h('p', null, h('b', null, 'Réponses anonymes. '), 'Aucun nom, e-mail ou identifiant n’est demandé. Seul le mois de votre réponse est conservé. Dans les champs libres, ne citez aucun patient.'))),
+    h('div', { id: 'form-status' }),
+    SECTIONS.map(s => h('section', { class: 'sec', 'data-sec': s.id },
+      h('div', { class: 'sec-head' }, h('h2', null, s.title), h('span', { 'data-sec-count': s.id })),
+      h('div', { class: 'sec-body' }, s.items.map(renderItem)))),
+    h('div', { class: 'actions' },
+      h('div', { id: 'submit-note' }),
+      h('button', { class: 'btn primary', type: 'submit', id: 'submit-btn' }, 'Envoyer mes réponses'),
+      h('button', { class: 'link', type: 'button', id: 'reset-btn', onclick: resetForm }, 'Tout effacer')),
+    h('div', { class: 'foot' }, h('span', null, 'Les champs marqués * sont obligatoires. Vos réponses sont transmises au cadre de santé du service.'),
+      h('a', { href: '#resultats', id: 'staff-link', hidden: true }, 'Espace cadre')));
+  formEl.addEventListener('input', onFormInput);
+  // a second click on a ticked radio unticks it, like erasing a tick on paper
+  formEl.addEventListener('click', e => {
+    const inp = e.target.closest('input[type=radio]'); if (!inp) return;
+    if (inp.dataset.was === '1') { inp.checked = false; inp.dataset.was = ''; onFormInput(); }
+    else { $$('input[name="' + inp.name + '"]', formEl).forEach(i => { i.dataset.was = ''; }); inp.dataset.was = '1'; }
+  });
+  restoreDraft();
+  syncForm();
+  return formEl;
+}
+function rawState() {
+  const s = {};
+  for (const el of formEl.elements) {
+    if (!el.name) continue;
+    if (el.type === 'radio') { if (el.checked) s[el.name] = el.value; }
+    else if (el.type === 'checkbox') { if (el.checked) (s[el.name] = s[el.name] || []).push(el.value); }
+    else if (el.value) s[el.name] = el.value;
+  }
+  return s;
+}
+function restoreDraft() {
+  let s; try { s = JSON.parse(ls.get(DRAFT_KEY) || 'null'); } catch { s = null; }
+  if (!s) return;
+  for (const el of formEl.elements) {
+    if (!el.name || !(el.name in s)) continue;
+    if (el.type === 'radio') { el.checked = s[el.name] === el.value; if (el.checked) el.dataset.was = '1'; }
+    else if (el.type === 'checkbox') el.checked = Array.isArray(s[el.name]) && s[el.name].includes(el.value);
+    else el.value = String(s[el.name]).slice(0, 1500);
+  }
+}
+function collect() {
+  const s = rawState(), a = {};
+  for (const q of Q) {
+    if (q.showIf && s[q.showIf[0]] !== q.showIf[1]) continue;
+    if (q.type === 'multi') a[q.id] = s[q.id] || [];
+    else if (q.type === 'text') a[q.id] = (s[q.id] || '').trim();
+    else if (q.type === 'note') a[q.id] = s[q.id] ? Number(s[q.id]) : null;
+    else if (q.id === 'formation') a[q.id] = s.formation === '__autre' ? ((s.formation_autre || '').trim() || 'Autre') : (s.formation || null);
+    else a[q.id] = s[q.id] || null;
+  }
+  return a;
+}
+let draftTimer;
+function onFormInput() {
+  confirmArmed = false;
+  $('#submit-note').replaceChildren();
+  $('#submit-btn').textContent = 'Envoyer mes réponses';
+  syncForm();
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(() => ls.set(DRAFT_KEY, JSON.stringify(rawState())), 400);
+}
+function syncForm() {
+  const s = rawState();
+  $$('[data-show-if]', formEl).forEach(el => { const [k, v] = el.dataset.showIf.split('='); el.hidden = s[k] !== v; });
+  const other = $('#q-formation-autre-txt', formEl); if (other) other.hidden = s.formation !== '__autre';
+  let done = 0;
+  for (const sec of SECTIONS) {
+    const qs = CLOSED.filter(q => q.section === sec.id), d = qs.filter(q => s[q.id]).length;
+    done += d;
+    const c = $('[data-sec-count="' + sec.id + '"]', formEl); if (c) c.textContent = d + ' / ' + qs.length;
+  }
+  $('#progress i').style.width = Math.round(done / CLOSED.length * 100) + '%';
+  $$('.q.invalid', formEl).forEach(el => { if (s[el.dataset.q]) { el.classList.remove('invalid'); $('.q-err', el)?.remove(); } });
+}
+function resetForm() {
+  formEl.reset(); $$('input[type=radio]', formEl).forEach(i => { i.dataset.was = ''; });
+  ls.del(DRAFT_KEY); $$('.q.invalid', formEl).forEach(el => { el.classList.remove('invalid'); $('.q-err', el)?.remove(); });
+  onFormInput();
+}
+async function onSubmit(e) {
+  e.preventDefault();
+  const a = collect(), btn = $('#submit-btn'), note = $('#submit-note');
+  const missing = Q.filter(q => q.required && a[q.id] == null);
+  if (missing.length) {
+    for (const q of missing) { const box = $('[data-q="' + q.id + '"]', formEl); if (box && !box.classList.contains('invalid')) { box.classList.add('invalid'); box.append(h('p', { class: 'q-err' }, 'Cette réponse est obligatoire.')); } }
+    const first = $('[data-q="' + missing[0].id + '"]', formEl); first.scrollIntoView({ block: 'center' }); $('input', first)?.focus({ preventScroll: true });
+    note.replaceChildren(h('p', { class: 'notice err' }, 'Il manque ' + plural(missing.length, 'réponse obligatoire', 'réponses obligatoires') + ' : ' + missing.map(q => q.short).join(', ') + '.'));
+    return;
+  }
+  const open = CLOSED.filter(q => !q.required && a[q.id] == null);
+  if (open.length && !confirmArmed) {
+    confirmArmed = true;
+    note.replaceChildren(h('p', { class: 'notice' }, plural(open.length, 'question est restée', 'questions sont restées') + ' sans réponse. Vous pouvez les compléter ou envoyer le questionnaire tel quel.'));
+    btn.textContent = 'Envoyer quand même';
+    return;
+  }
+  btn.disabled = true; btn.textContent = 'Envoi en cours…';
+  try {
+    await submitResponse(a);
+    ls.del(DRAFT_KEY); confirmArmed = false;
+    formEl = null; showThanks();
+  } catch (err) {
+    btn.disabled = false; btn.textContent = 'Envoyer mes réponses';
+    if (err.status === 403) {
+      store.code = ''; ss.del('fds-code'); applyBackendToForm();
+      const box = $('#q-code', formEl); if (box) { box.value = ''; box.focus(); box.scrollIntoView({ block: 'center' }); }
+      note.replaceChildren(h('p', { class: 'notice err' }, 'Le code d’accès est manquant ou incorrect. Saisissez le code affiché dans le service, en haut du questionnaire, puis renvoyez vos réponses.'));
+      return;
+    }
+    const msg = err.message === 'unavailable'
+      ? 'L’envoi n’est pas disponible sur cette page d’aperçu. Vos réponses n’ont pas été enregistrées.'
+      : 'L’envoi a échoué (' + err.message + '). Vérifiez votre connexion puis réessayez, vos réponses sont conservées sur cet écran.';
+    note.replaceChildren(h('p', { class: 'notice err' }, msg));
+  }
+}
+function showThanks() {
+  $('#progress i').style.width = '100%';
+  app.replaceChildren(h('div', { class: 'sheet' }, h('section', { class: 'sec thanks' },
+    h('span', { class: 'big-check', 'aria-hidden': 'true' }),
+    h('h1', null, 'Merci de votre participation'),
+    h('p', { class: 'lead' }, 'Vos réponses ont bien été enregistrées, de façon anonyme. Elles seront lues par le cadre de santé du service pour améliorer l’accueil des prochains stagiaires.'),
+    h('button', { class: 'btn', type: 'button', onclick: () => { showForm(); window.scrollTo(0, 0); } }, 'Remplir un autre questionnaire'))));
+  window.scrollTo(0, 0);
+}
+function showForm() {
+  $('#progress').hidden = false;
+  if (!formEl) buildForm();
+  app.replaceChildren(formEl);
+  syncForm(); applyBackendToForm();
+}
+function codeField() {
+  return h('div', { class: 'q' },
+    h('label', { class: 'q-label', for: 'q-code' }, 'Code d’accès', h('span', { class: 'req', title: 'Réponse obligatoire' }, '*')),
+    h('p', { class: 'q-hint' }, 'Il est affiché dans le service, à côté du QR code.'),
+    h('input', { class: 'field', type: 'text', id: 'q-code', maxlength: 80, autocomplete: 'off', oninput: e => { store.code = e.target.value.trim(); ss.set('fds-code', store.code); } }));
+}
+function applyBackendToForm() {
+  if (!formEl || store.mode === 'pending') return;
+  const st = $('#form-status', formEl);
+  $('#staff-link', formEl).hidden = store.mode !== 'rest';
+  if (store.mode === 'rest') {
+    // once shown, the code field stays until the questionnaire is sent
+    if (store.needsCode && (!store.code || $('#q-code', st))) { if (!$('#q-code', st)) st.replaceChildren(codeField()); }
+    else st.replaceChildren();
+  }
+  else if (store.mode === 'claude' && store.canSubmit) st.replaceChildren(h('p', { class: 'notice' }, 'Aperçu privé : ici, seuls vous et les éditeurs de cette page pouvez enregistrer une réponse. Pour recueillir les réponses des stagiaires, utilisez la version hébergée de l’application.'));
+  else st.replaceChildren(h('p', { class: 'notice' }, 'Aperçu du questionnaire : sur cette page, l’envoi des réponses est réservé au propriétaire.'));
+}
+
+/* ================= statistics ================= */
+const share = (rs, id, val) => { let a = 0, k = 0; for (const r of rs) { if (r[id] == null) continue; a++; if (r[id] === val) k++; } return { k, a, p: a ? k / a : null }; };
+const meanOf = (rs, fn) => { let s = 0, n = 0; for (const r of rs) { const v = fn(r); if (v == null || Number.isNaN(v)) continue; s += v; n++; } return { m: n ? s / n : null, n }; };
+const median = xs => { if (!xs.length) return null; const a = [...xs].sort((x, y) => x - y), m = a.length >> 1; return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
+const infoRate = r => { let a = 0, k = 0; for (const id of INFO_IDS) { if (r[id] == null) continue; a++; if (r[id] === 'oui') k++; } return a ? k / a : null; };
+const infoCount = r => INFO_IDS.filter(id => r[id] === 'oui').length;
+const satMean = r => { let s = 0, n = 0; for (const q of SATQ) { const v = SATV[r[q.id]]; if (v) { s += v; n++; } } return n ? s / n : null; };
+const yn01 = id => r => r[id] == null ? null : (r[id] === 'oui' ? 1 : 0);
+const groupBy = (rs, fn) => { const m = new Map(); for (const r of rs) { const k = fn(r); if (!m.has(k)) m.set(k, []); m.get(k).push(r); } return m; };
+
+const MEASURES = {
+  note: { label: 'Note moyenne (sur 10)', fn: r => r.note, max: 10, fmt: fmt1 },
+  sat: { label: 'Satisfaction des acquis (moyenne sur 3)', fn: satMean, max: 3, fmt: fmt1 },
+  infos: { label: 'Informations reçues à l’arrivée (%)', fn: infoRate, max: 1, fmt: fmtPct },
+  atteints: { label: 'Objectifs atteints (%)', fn: yn01('objectifs_atteints'), max: 1, fmt: fmtPct },
+  difficultes: { label: 'Difficultés rencontrées (%)', fn: yn01('difficultes'), max: 1, fmt: fmtPct },
+  tuteur: { label: 'Tuteur désigné (%)', fn: yn01('tuteur'), max: 1, fmt: fmtPct },
+  n: { label: 'Nombre de réponses', count: true, fmt: v => String(v) },
+};
+const ynDim = (id) => ({ label: QBY[id].short, fn: r => r[id] == null ? 'Sans réponse' : labelOf(YN, r[id]), order: ['Oui', 'Non', 'Sans réponse'] });
+const DIMS = {
+  formation: { label: 'Formation', fn: r => r.formation || 'Non précisée' },
+  annee: { label: 'Année d’étude', fn: r => r.annee || 'Non précisée', sort: true },
+  mois: { label: 'Mois de réponse', fn: r => r.mois, sort: true, fmtKey: k => monthLabel(k, true) },
+  accueil: ynDim('accueil'), tuteur: ynDim('tuteur'), objectifs: ynDim('objectifs'), bilan: ynDim('bilan'),
+  objectifs_atteints: ynDim('objectifs_atteints'), difficultes: ynDim('difficultes'),
+};
+
+/* ================= demo data (never stored) ================= */
+function makeDemo(n) {
+  let seed = 20260204; const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const pick = a => a[Math.floor(rnd() * a.length)], maybe = (p, a) => rnd() < p ? pick(a) : '';
+  const T = {
+    qui: ['Le cadre de santé', 'Une infirmière du service', 'L’infirmière tutrice', 'L’équipe de jour', 'Une aide-soignante', 'Le cadre et ma tutrice'],
+    comp: ['Pose et surveillance de sonde nasogastrique', 'Soins de stomie et éducation du patient stomisé', 'Préparation des patients à la coloscopie', 'Surveillance après ponction d’ascite', 'Gestion des pompes de nutrition entérale', 'Transmissions ciblées et relève orale', 'Préparation et pose de perfusions', 'Surveillance d’une transfusion', 'Organisation de mon secteur de soins sur une matinée', 'Relation avec les patients en sevrage'],
+    pourquoi: ['Peu d’occasions de pratiquer certains soins techniques', 'Stage trop court pour valider tous mes objectifs', 'Charge de travail importante, peu de temps pour les objectifs éducatifs'],
+    diff: ['Rythme soutenu les premiers jours', 'Changement fréquent d’encadrant', 'Difficulté à trouver ma place lors des transmissions', 'Peu de temps pour faire le point avec ma tutrice', 'Vocabulaire médical spécifique à assimiler rapidement'],
+    sugg: ['Remettre un livret d’accueil avec les pathologies fréquentes du service', 'Prévoir le bilan de mi-stage dès la première semaine', 'Garder le même tuteur sur toute la durée du stage', 'Présenter les protocoles de soins le premier jour', 'Afficher le planning des étudiants en salle de soins'],
+    plus: ['La disponibilité de l’équipe et les explications pendant les soins', 'La diversité des soins techniques', 'L’autonomie laissée progressivement', 'L’ambiance dans l’équipe', 'Pouvoir assister à des endoscopies', 'Le suivi par ma tutrice'],
+    moins: ['Le manque de temps pour les soins éducatifs', 'Les horaires communiqués tardivement', 'Ne pas avoir eu de badge avant la deuxième semaine', 'Le peu d’échanges lors du bilan de mi-stage', 'La charge de travail en fin de matinée'],
+  };
+  const out = [], now = monthNow();
+  for (let i = 0; i < n; i++) {
+    const g = 0.25 + rnd() * 0.75;                       // overall quality of this internship
+    const yes = p => rnd() < p ? 'oui' : 'non', skip = (v, p = 0.04) => rnd() < p ? null : v;
+    const f = rnd(), formation = f < 0.62 ? 'Infirmier(e) (IFSI)' : f < 0.86 ? 'Aide-soignant(e) (IFAS)' : f < 0.96 ? 'Médecine (externe)' : 'Manipulateur radio';
+    const annee = formation.startsWith('Aide') ? '1re année' : formation.startsWith('Méd') ? pick(['4e année', '5e année']) : pick(['1re année', '2e année', '2e année', '3e année', '3e année']);
+    const sat = () => { const x = g + (rnd() - 0.5) * 0.5; return skip(x > 0.72 ? 'tres' : x > 0.42 ? 'sat' : 'peu', 0.05); };
+    const r = { id: 'demo' + i, v: 1, mois: addMonths(now, -Math.floor(rnd() * rnd() * 14)), formation, annee };
+    r.accueil = skip(yes(0.55 + g * 0.45)); r.accueil_par_qui = r.accueil === 'oui' ? maybe(0.85, T.qui) : undefined;
+    const pInfo = { info_etablissement: 0.55, info_fonctionnement: 0.9, info_specificite: 0.8, info_soins: 0.85, info_outils: 0.6, info_equipe: 0.75, info_planning: 0.95, info_badge: 0.45 };
+    for (const id of INFO_IDS) r[id] = skip(yes(Math.min(0.98, pInfo[id] * (0.6 + g * 0.55))));
+    r.tuteur = skip(yes(0.5 + g * 0.45)); r.objectifs = skip(yes(0.8));
+    r.objectifs_presentes = r.objectifs === 'oui' ? maybe(0.7, ['Oui, à ma tutrice', 'Au cadre de santé le premier jour', 'À l’équipe infirmière', 'Oui, au tuteur et au cadre']) : undefined;
+    r.bilan = skip(yes(0.35 + g * 0.6)); r.bilan_par_qui = r.bilan === 'oui' ? maybe(0.8, T.qui) : undefined;
+    r.eval_presence = r.bilan === 'oui' ? PRES.map(p => p[0]).filter(k => rnd() < { cadre: 0.45, tuteur: 0.8, equipe: 0.5, etudiant: 0.95 }[k]) : [];
+    for (const q of SATQ) r[q.id] = sat();
+    if (rnd() < 0.5 && r.acquis_educatifs === 'tres') r.acquis_educatifs = 'sat';
+    r.competences = maybe(0.75, T.comp);
+    r.objectifs_atteints = skip(yes(0.4 + g * 0.6)); r.objectifs_pourquoi = r.objectifs_atteints === 'non' ? maybe(0.85, T.pourquoi) : undefined;
+    r.difficultes = skip(yes(0.75 - g * 0.6)); r.difficultes_lesquelles = r.difficultes === 'oui' ? maybe(0.85, T.diff) : undefined;
+    r.suggestions = maybe(0.5, T.sugg); r.plus_apprecie = maybe(0.8, T.plus); r.moins_apprecie = maybe(0.55, T.moins);
+    r.note = Math.max(1, Math.min(10, Math.round(2.4 + g * 6.4 + (r.tuteur === 'oui' ? 0.6 : -0.5) + (r.objectifs_atteints === 'non' ? -0.8 : 0.3) + (r.difficultes === 'oui' ? -0.6 : 0.2) + (rnd() - 0.5) * 2)));
+    for (const k in r) if (r[k] === undefined) delete r[k];
+    out.push(r);
+  }
+  return out;
+}
+let DEMO = null;
+
+/* ================= results board ================= */
+const adm = { tab: 'synthese', f: { formation: '', annee: '', period: 'all', from: '', to: '' }, dim: 'formation', measure: 'note', vq: 'suggestions', vsearch: '', open: null, sort: { k: 'mois', d: -1 }, demo: true, del: null };
+const TABS = [['synthese', 'Synthèse'], ['accueil', 'Accueil et encadrement'], ['apprentissage', 'Apprentissage'], ['croisees', 'Analyses croisées'], ['verbatims', 'Verbatims'], ['reponses', 'Réponses']];
+
+function dataset() {
+  if (responses && responses.length) return { rows: responses, demo: false };
+  if (adm.demo) { DEMO = DEMO || makeDemo(48); return { rows: DEMO, demo: true }; }
+  return { rows: [], demo: false };
+}
+function applyFilters(rows) {
+  const f = adm.f; let from = '', to = '';
+  const now = monthNow();
+  if (f.period === '3' || f.period === '6' || f.period === '12') from = addMonths(now, -(Number(f.period) - 1));
+  else if (f.period === 'year') from = now.slice(0, 4) + '-01';
+  else if (f.period === 'custom') { from = f.from; to = f.to; }
+  return rows.filter(r => (!f.formation || r.formation === f.formation) && (!f.annee || r.annee === f.annee) && (!from || (r.mois || '') >= from) && (!to || (r.mois || '') <= to));
+}
+function card(cls, title, sub, ...body) {
+  return h('section', { class: 'card ' + (cls || '') }, h('div', { class: 'card-head' }, h('h3', null, title), sub ? h('p', { class: 'sub' }, sub) : null), body);
+}
+function figs(headers, rows) {
+  return h('details', { class: 'figs' }, h('summary', null, 'Voir les chiffres'),
+    h('div', { class: 'tbl-wrap' }, h('table', null, h('thead', null, h('tr', null, headers.map((x, i) => h('th', { class: i ? 'num' : null }, x)))),
+      h('tbody', null, rows.map(r => h('tr', null, r.map((x, i) => h('td', { class: i ? 'num' : null }, x))))))));
+}
+function kpi(label, value, unit, sub, hero) {
+  return h('div', { class: 'kpi' + (hero ? ' hero' : '') }, h('span', { class: 'k-label' }, label), h('span', { class: 'k-val' }, value, unit ? h('small', null, unit) : null), sub ? h('span', { class: 'k-sub' }, sub) : null);
+}
+// One answered-only 100 % bar per question; the count of blanks sits beside it.
+function stackRow(label, parts, total, blanks, lead) {
+  const bar = total ? h('div', { class: 'sbar' }, parts.filter(p => p.n).map(p => {
+    const pc = p.n / total;
+    return h('span', { class: p.cls, style: 'flex:' + p.n + ' 1 0', tip: { t: label, v: fmtPct(pc) + ' ' + p.label.toLowerCase(), s: plural(p.n, 'réponse') + ' sur ' + total } }, pc >= 0.22 ? fmtPct(pc) : '');
+  })) : h('div', { class: 'sbar none' });
+  return h('div', { class: 'srow' }, h('div', { class: 'srow-label' }, label), bar,
+    h('div', { class: 'srow-meta', title: blanks ? plural(blanks, 'sans réponse', 'sans réponse') : null }, total ? (lead ? lead + ' · ' : '') + 'n = ' + total : 'aucune réponse'));
+}
+function ynRow(rs, q) {
+  const o = share(rs, q.id, 'oui'), n = o.a - o.k;
+  return stackRow(q.short, [{ cls: 'yes', label: 'Oui', n: o.k }, { cls: 'no', label: 'Non', n }], o.a, rs.length - o.a, fmtPct(o.p) + ' oui');
+}
+function satRow(rs, q) {
+  const c = { tres: 0, sat: 0, peu: 0 }; let a = 0; for (const r of rs) if (r[q.id] in c) { c[r[q.id]]++; a++; }
+  return stackRow(q.short, [{ cls: 'yes', label: 'Très satisfaisant', n: c.tres }, { cls: 'mid', label: 'Satisfaisant', n: c.sat }, { cls: 'no', label: 'Peu satisfaisant', n: c.peu }], a, rs.length - a);
+}
+const ynLegend = () => h('div', { class: 'legend' }, h('span', null, h('i', { class: 'sw-yes' }), 'Oui'), h('span', null, h('i', { class: 'sw-no' }), 'Non'), h('span', null, 'n = réponses exprimées'));
+const satLegend = () => h('div', { class: 'legend' }, h('span', null, h('i', { class: 'sw-yes' }), 'Très satisfaisant'), h('span', null, h('i', { class: 'sw-mid' }), 'Satisfaisant'), h('span', null, h('i', { class: 'sw-no' }), 'Peu satisfaisant'));
+function columns(items, xTitle) { // items: [{x, v, tip}]
+  const max = Math.max(1, ...items.map(i => i.v)), short = items.every(i => i.x.length <= 2), step = short ? 1 : items.length > 16 ? 3 : items.length > 8 ? 2 : 1;
+  return h('div', null,
+    h('div', { class: 'cols', role: 'img', 'aria-label': xTitle }, items.map(i => h('div', { class: 'col', tip: { t: i.tipTitle || i.x, v: i.tipValue || String(i.v) } },
+      h('span', { class: 'col-val' }, i.v ? i.v : ''), h('div', { class: 'col-bar', style: 'height:calc((100% - 18px) * ' + (i.v / max).toFixed(4) + ')' })))),
+    h('div', { class: 'cols-x' }, items.map((i, k) => h('span', null, k % step === 0 ? i.x : ''))));
+}
+function hbars(items, max, fmt) { // items: [{label, v, n}]
+  return h('div', { class: 'hrows' }, items.map(i => h('div', { class: 'hrow' }, h('span', null, i.label),
+    h('div', { class: 'track' }, !i.v ? null : h('div', { class: 'bar', style: 'width:' + Math.max(0, i.v / max * 100).toFixed(2) + '%', tip: { t: i.label, v: fmt(i.v), s: i.n != null ? 'n = ' + i.n : null } })),
+    h('span', { class: 'val' }, fmt(i.v), i.n != null ? h('small', null, 'n = ' + i.n) : null))));
+}
+function monthRange(rs) {
+  const ms = rs.map(r => r.mois).filter(Boolean).sort(); if (!ms.length) return [];
+  let a = ms[0]; const b = ms[ms.length - 1], out = [];
+  while (a <= b && out.length < 240) { out.push(a); a = addMonths(a, 1); }
+  return out.slice(-24);
+}
+function lineChart(points) { // points: [{x, v|null, n}]
+  const N = points.length, SVG = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(SVG, 'svg'); svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('preserveAspectRatio', 'none'); svg.setAttribute('aria-hidden', 'true');
+  let run = []; const flush = () => { if (run.length > 1) { const pl = document.createElementNS(SVG, 'polyline'); pl.setAttribute('points', run.join(' ')); svg.append(pl); } run = []; };
+  points.forEach((p, i) => { if (p.v == null) flush(); else run.push(((i + 0.5) / N * 100).toFixed(2) + ',' + (100 - p.v * 10).toFixed(2)); }); flush();
+  const box = h('div', { class: 'line' }, [2, 4, 6, 8, 10].map(g => h('div', { class: 'gl', style: 'bottom:' + g * 10 + '%' }, h('span', null, g))), svg);
+  let last = -1; points.forEach((p, i) => { if (p.v != null) last = i; });
+  points.forEach((p, i) => { if (p.v == null) return;
+    const pos = 'left:' + ((i + 0.5) / N * 100).toFixed(2) + '%;top:' + (100 - p.v * 10).toFixed(2) + '%';
+    box.append(h('span', { class: 'pt', style: pos, tip: { t: p.tipTitle, v: fmt1(p.v) + ' / 10', s: plural(p.n, 'réponse') } }));
+    if (i === last) box.append(h('span', { class: 'end', style: pos }, fmt1(p.v))); });
+  const step = N > 16 ? 3 : N > 8 ? 2 : 1;
+  return h('div', null, box, h('div', { class: 'cols-x line-x' }, points.map((p, k) => h('span', null, k % step === 0 ? p.x : ''))));
+}
+
+/* ----- tabs ----- */
+function tabSynthese(rs) {
+  const notes = rs.map(r => r.note).filter(v => v != null), nm = meanOf(rs, r => r.note);
+  const att = share(rs, 'objectifs_atteints', 'oui'), dif = share(rs, 'difficultes', 'oui'), tut = share(rs, 'tuteur', 'oui'), inf = meanOf(rs, infoRate);
+  const sd = notes.length > 1 ? Math.sqrt(notes.reduce((s, v) => s + (v - nm.m) ** 2, 0) / (notes.length - 1)) : null;
+  const kp = h('div', { class: 'kpis' },
+    kpi('Note globale moyenne', fmt1(nm.m), '/ 10', 'médiane ' + (median(notes) == null ? '–' : String(median(notes)).replace('.', ',')) + (sd != null ? ' · écart-type ' + fmt1(sd) : ''), true),
+    kpi('Réponses', String(rs.length), null, monthRange(rs).length ? 'de ' + monthLabel(rs.map(r => r.mois).sort()[0]) + ' à ' + monthLabel(rs.map(r => r.mois).sort().pop()) : null),
+    kpi('Objectifs atteints', fmtPct(att.p), null, att.k + ' sur ' + att.a),
+    kpi('Difficultés rencontrées', fmtPct(dif.p), null, dif.k + ' sur ' + dif.a),
+    kpi('Informations reçues à l’arrivée', fmtPct(inf.m), null, 'moyenne sur les 8 informations'),
+    kpi('Tuteur désigné', fmtPct(tut.p), null, tut.k + ' sur ' + tut.a));
+  const dist = Array.from({ length: 10 }, (_, i) => { const v = notes.filter(x => x === i + 1).length; return { x: String(i + 1), v, tipTitle: 'Note ' + (i + 1) + ' / 10', tipValue: plural(v, 'réponse') + ' (' + fmtPct(notes.length ? v / notes.length : 0) + ')' }; });
+  const months = monthRange(rs), byM = groupBy(rs, r => r.mois);
+  const mCount = months.map(m => ({ x: monthLabel(m), v: (byM.get(m) || []).length, tipTitle: monthLabel(m, true), tipValue: plural((byM.get(m) || []).length, 'réponse') }));
+  const mNote = months.map(m => { const g = meanOf(byM.get(m) || [], r => r.note); return { x: monthLabel(m), v: g.m, n: g.n, tipTitle: monthLabel(m, true) }; });
+  // strengths and watch points: share of favourable answers per closed question
+  const ind = [];
+  for (const q of YNQ) { const fav = q.id === 'difficultes' ? 'non' : 'oui', o = share(rs, q.id, fav); if (o.a >= 3) ind.push({ label: q.id === 'difficultes' ? 'Stage sans difficulté signalée' : q.short, p: o.p, n: o.a }); }
+  for (const q of SATQ) { let a = 0, k = 0; for (const r of rs) { if (r[q.id] == null) continue; a++; if (r[q.id] !== 'peu') k++; } if (a >= 3) ind.push({ label: q.short + ' : satisfaisant ou plus', p: k / a, n: a }); }
+  ind.sort((a, b) => b.p - a.p);
+  const list = (items, low) => h('ul', null, items.map(i => h('li', null, h('span', null, i.label), h('b', null, fmtPct(i.p)), h('div', { class: 'meter' + (low ? ' low' : '') }, h('i', { style: 'width:' + (i.p * 100).toFixed(1) + '%' })))));
+  const k = Math.min(4, Math.floor(ind.length / 2));
+  const byForm = [...groupBy(rs, r => r.formation || 'Non précisée')].map(([label, g]) => ({ label, v: g.length, n: null })).sort((a, b) => b.v - a.v);
+  const byYear = [...groupBy(rs, r => r.annee || 'Non précisée')].map(([label, g]) => ({ label, v: g.length })).sort((a, b) => a.label.localeCompare(b.label, 'fr', { numeric: true }));
+  return [kp, h('div', { class: 'grid' },
+    card('half', 'Répartition des notes globales', 'Nombre de réponses pour chaque note de 1 à 10', columns(dist, 'Répartition des notes'), figs(['Note', 'Réponses', 'Part'], dist.map(d => [d.x, d.v, fmtPct(notes.length ? d.v / notes.length : 0)]))),
+    card('half', 'Note moyenne par mois', 'Sur 10, mois sans réponse laissés vides', months.length ? lineChart(mNote) : h('p', { class: 'empty' }, 'Pas encore de réponse.'), figs(['Mois', 'Note moyenne', 'Réponses'], mNote.map(d => [d.tipTitle, fmt1(d.v), d.n]))),
+    card('half', 'Points forts', 'Part de réponses favorables, questions les mieux notées', ind.length ? h('div', { class: 'insight' }, list(ind.slice(0, k))) : h('p', { class: 'empty' }, 'Pas assez de réponses pour un classement.')),
+    card('half', 'Points à améliorer', 'Part de réponses favorables, questions les moins bien notées', ind.length ? h('div', { class: 'insight' }, list(ind.slice(-k).reverse(), true)) : h('p', { class: 'empty' }, 'Pas assez de réponses pour un classement.')),
+    card('third', 'Réponses par mois', null, months.length ? columns(mCount, 'Réponses par mois') : h('p', { class: 'empty' }, 'Pas encore de réponse.')),
+    card('third', 'Par formation', 'Nombre de réponses', hbars(byForm, Math.max(1, ...byForm.map(i => i.v)), v => String(v))),
+    card('third', 'Par année d’étude', 'Nombre de réponses', hbars(byYear, Math.max(1, ...byYear.map(i => i.v)), v => String(v))))];
+}
+function topAnswers(rs, id) {
+  const m = new Map(); for (const r of rs) { const t = (r[id] || '').trim(); if (!t) continue; const k = t.toLocaleLowerCase('fr'); const e = m.get(k) || { label: t, v: 0 }; e.v++; m.set(k, e); }
+  return [...m.values()].sort((a, b) => b.v - a.v).slice(0, 6);
+}
+function tabAccueil(rs) {
+  const acc = YNQ.find(q => q.id === 'accueil'), infos = YNQ.filter(q => INFO_IDS.includes(q.id)), enc = ['tuteur', 'objectifs', 'bilan'].map(id => QBY[id]);
+  const withBilan = rs.filter(r => r.bilan === 'oui'), pres = PRES.map(([v, l]) => ({ label: l, v: withBilan.length ? withBilan.filter(r => (r.eval_presence || []).includes(v)).length / withBilan.length : null, n: withBilan.filter(r => (r.eval_presence || []).includes(v)).length }));
+  const cnt = Array.from({ length: 9 }, (_, i) => { const v = rs.filter(r => infoRate(r) != null && infoCount(r) === i).length; return { x: String(i), v, tipTitle: i + ' information' + (i > 1 ? 's' : '') + ' sur 8', tipValue: plural(v, 'stagiaire') }; });
+  const who = (id, title) => { const t = topAnswers(rs, id); return card('third', title, 'Réponses libres les plus fréquentes', t.length ? hbars(t, t[0].v, v => String(v)) : h('p', { class: 'empty' }, 'Aucune réponse libre.')); };
+  return [h('div', { class: 'grid' },
+    card('two-third', 'Informations reçues à l’arrivée', 'Part de « oui » parmi les réponses exprimées', ynLegend(), h('div', { class: 'srows' }, ynRow(rs, acc), infos.map(q => ynRow(rs, q)))),
+    card('third', 'Nombre d’informations reçues', 'Sur les 8 informations de la question II', columns(cnt, 'Nombre d’informations reçues par stagiaire')),
+    card('half', 'Encadrement', 'Tuteur, objectifs et bilan de mi-stage', ynLegend(), h('div', { class: 'srows' }, enc.map(q => ynRow(rs, q)))),
+    card('half', 'Présents à l’évaluation de mi-stage', 'Parmi les ' + plural(withBilan.length, 'stagiaire') + ' ayant eu un bilan de mi-stage', withBilan.length ? hbars(pres, 1, fmtPct) : h('p', { class: 'empty' }, 'Aucun bilan de mi-stage déclaré.')),
+    who('accueil_par_qui', 'Accueilli(e) par'), who('bilan_par_qui', 'Bilan de mi-stage réalisé par'), who('objectifs_presentes', 'Objectifs présentés à'))];
+}
+function tabApprentissage(rs) {
+  const sm = SATQ.map(q => { const g = meanOf(rs, r => SATV[r[q.id]] || null); return { label: q.short, v: g.m, n: g.n }; });
+  const notes = rs.map(r => r.note).filter(v => v != null);
+  const bands = [['1 à 4', n => n <= 4], ['5 à 6', n => n >= 5 && n <= 6], ['7 à 8', n => n >= 7 && n <= 8], ['9 à 10', n => n >= 9]].map(([label, fn]) => { const v = notes.filter(fn).length; return { label, v: notes.length ? v / notes.length : null, n: v }; });
+  return [h('div', { class: 'grid' },
+    card('two-third', 'Développement des acquis', 'Répartition des réponses par type de soins', satLegend(), h('div', { class: 'srows' }, SATQ.map(q => satRow(rs, q))),
+      figs(['Type de soins', 'Très satisfaisant', 'Satisfaisant', 'Peu satisfaisant', 'Réponses'], SATQ.map(q => { const a = rs.filter(r => r[q.id] != null).length; return [q.short, ...['tres', 'sat', 'peu'].map(v => fmtPct(a ? rs.filter(r => r[q.id] === v).length / a : null)), a]; }))),
+    card('third', 'Satisfaction moyenne par type de soins', 'Sur 3 : très satisfaisant = 3, satisfaisant = 2, peu satisfaisant = 1', hbars(sm, 3, fmt1)),
+    card('half', 'Objectifs et difficultés', null, ynLegend(), h('div', { class: 'srows' }, ynRow(rs, QBY.objectifs_atteints), ynRow(rs, QBY.difficultes))),
+    card('half', 'Notes globales par tranche', 'Part des réponses', hbars(bands, 1, fmtPct)))];
+}
+function tabCroisees(rs) {
+  const dim = DIMS[adm.dim], ms = MEASURES[adm.measure];
+  let groups = [...groupBy(rs, dim.fn)];
+  if (dim.order) groups.sort((a, b) => dim.order.indexOf(a[0]) - dim.order.indexOf(b[0]));
+  else if (dim.sort) groups.sort((a, b) => String(a[0]).localeCompare(String(b[0]), 'fr', { numeric: true }));
+  else groups.sort((a, b) => b[1].length - a[1].length);
+  const items = groups.map(([k, g]) => { const label = dim.fmtKey ? dim.fmtKey(k) : k; if (ms.count) return { label, v: g.length }; const r = meanOf(g, ms.fn); return { label, v: r.m, n: r.n }; });
+  const max = ms.count ? Math.max(1, ...items.map(i => i.v)) : ms.max;
+  const sel = (id, label, opts, cur, on) => h('label', null, label, h('select', { id, onchange: e => { on(e.target.value); renderAdmin(); } }, Object.entries(opts).map(([v, o]) => h('option', { value: v, selected: v === cur }, o.label))));
+  // effect of each yes/no answer on the overall mark
+  const eff = [];
+  const push = (label, a, b) => { const A = meanOf(a, r => r.note), B = meanOf(b, r => r.note); if (A.n && B.n) eff.push({ label, y: A.m, n1: A.n, no: B.m, n0: B.n, d: A.m - B.m, weak: A.n < 5 || B.n < 5 }); };
+  for (const q of YNQ) push(q.short, rs.filter(r => r[q.id] === 'oui'), rs.filter(r => r[q.id] === 'non'));
+  eff.sort((a, b) => (a.weak - b.weak) || Math.abs(b.d) - Math.abs(a.d));
+  const pos = v => ((v - 1) / 9 * 100).toFixed(2) + '%';
+  const dumb = eff.length ? h('div', null,
+    h('div', { class: 'dumb-axis' }, h('span'), h('div', { class: 'ticks' }, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(t => h('span', { style: 'left:' + pos(t) }, t))), h('span')),
+    eff.map(e => h('div', { class: 'dumb' + (e.weak ? ' weak' : '') }, h('span', null, e.label),
+      h('div', { class: 'trk' }, h('span', { class: 'join', style: 'left:' + pos(Math.min(e.y, e.no)) + ';width:' + (Math.abs(e.d) / 9 * 100).toFixed(2) + '%' }),
+        h('span', { class: 'dot n', style: 'left:' + pos(e.no), tip: { t: e.label + ' : non', v: fmt1(e.no) + ' / 10', s: 'n = ' + e.n0 } }),
+        h('span', { class: 'dot y', style: 'left:' + pos(e.y), tip: { t: e.label + ' : oui', v: fmt1(e.y) + ' / 10', s: 'n = ' + e.n1 } })),
+      h('span', { class: 'gap' }, (Math.abs(e.d) < 0.05 ? '' : e.d > 0 ? '+' : '−') + fmt1(Math.abs(e.d)) + ' pt', h('small', null, e.weak ? 'effectif faible' : 'oui ' + e.n1 + ' · non ' + e.n0))))) : h('p', { class: 'empty' }, 'Il faut des réponses « oui » et « non » pour comparer.');
+  // heat table: satisfaction by care type and by group
+  const hd = adm.dim in DIMS && !DIMS[adm.dim].order ? adm.dim : 'formation', hdim = DIMS[hd];
+  const hg = [...groupBy(rs, hdim.fn)].sort((a, b) => hdim.sort ? String(a[0]).localeCompare(String(b[0]), 'fr', { numeric: true }) : b[1].length - a[1].length).slice(0, 12);
+  const cell = (g, fn, lo, hi, f) => { const r = meanOf(g, fn); if (r.m == null) return h('td', { class: 'cell na' }, '–'); const s = Math.min(5, Math.max(1, 1 + Math.floor((r.m - lo) / (hi - lo) * 5))); return h('td', { class: 'cell', style: 'background:var(--seq-' + s + ');color:var(--seq-t-' + s + ')', tip: { t: 'Moyenne', v: f(r.m), s: 'n = ' + r.n } }, f(r.m)); };
+  const heat = h('div', { class: 'tbl-wrap' }, h('table', { class: 'heat' },
+    h('thead', null, h('tr', null, h('th', null, hdim.label), SATQ.map(q => h('th', { class: 'num' }, q.short)), h('th', { class: 'num' }, 'Note / 10'), h('th', { class: 'num' }, 'n'))),
+    h('tbody', null, hg.map(([k, g]) => h('tr', null, h('td', null, hdim.fmtKey ? hdim.fmtKey(k) : k), SATQ.map(q => cell(g, r => SATV[r[q.id]] || null, 1, 3.0001, fmt1)), cell(g, r => r.note, 1, 10.0001, fmt1), h('td', { class: 'num' }, g.length))))));
+  return [h('div', { class: 'filters' }, sel('x-dim', 'Regrouper par', DIMS, adm.dim, v => { adm.dim = v; }), sel('x-measure', 'Indicateur', MEASURES, adm.measure, v => { adm.measure = v; })),
+    h('div', { class: 'grid' },
+      card('', ms.label.replace(/ \(.*\)$/, '') + ' par ' + dim.label.toLowerCase(), ms.label, items.length ? hbars(items, max, ms.fmt) : h('p', { class: 'empty' }, 'Pas encore de réponse.')),
+      card('', 'Ce qui fait varier la note globale', 'Note moyenne des stagiaires ayant répondu « oui » et « non » à chaque question, classée par écart. Un écart n’est pas une preuve de cause.', h('div', { class: 'legend' }, h('span', null, h('i', { class: 'sw-yes', style: 'border-radius:50%' }), 'A répondu oui'), h('span', null, h('i', { class: 'sw-no', style: 'border-radius:50%' }), 'A répondu non')), dumb),
+      card('', 'Satisfaction des acquis par ' + hdim.label.toLowerCase(), 'Moyenne sur 3 par type de soins, plus la couleur est soutenue plus la moyenne est haute', hg.length ? heat : h('p', { class: 'empty' }, 'Pas encore de réponse.')))];
+}
+const STOP = new Set('a au aux avec ce ces cette dans de des du elle en et eu il ils je la le les leur lui ma mais me mes moi mon ne nos notre nous on ou où par pas pour qu que qui sa se ses son sur ta te tes toi ton tu un une vos votre vous y à été être avoir est sont ont ai as avait fait faire plus moins très trop peu tout tous toute toutes d l j n s c m qu lors pendant afin car comme si non oui ainsi aussi bien cela ça dont entre lors mon même sans sous chez vers été peut pu'.split(' '));
+function topWords(texts) {
+  const m = new Map(); for (const t of texts) { const seen = new Set(); for (const w of t.toLocaleLowerCase('fr').split(/[^a-zà-ÿœ]+/)) { if (w.length < 4 || STOP.has(w) || seen.has(w)) continue; seen.add(w); m.set(w, (m.get(w) || 0) + 1); } }
+  return [...m].filter(e => e[1] > 1).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([label, v]) => ({ label, v }));
+}
+function tabVerbatims(rs) {
+  const q = QBY[adm.vq], counts = Object.fromEntries(TEXTQ.map(t => [t.id, rs.filter(r => (r[t.id] || '').trim()).length]));
+  const listBox = h('div', { class: 'quotes', id: 'quotes' });
+  const fill = () => {
+    const needle = adm.vsearch.trim().toLocaleLowerCase('fr');
+    const items = rs.filter(r => (r[q.id] || '').trim() && (!needle || r[q.id].toLocaleLowerCase('fr').includes(needle))).sort((a, b) => (b.mois || '').localeCompare(a.mois || ''));
+    listBox.replaceChildren(...(items.length ? items.map(r => h('div', { class: 'quote' }, h('p', null, r[q.id]), h('span', null, [r.formation, r.annee, monthLabel(r.mois, true), r.note != null ? 'note ' + r.note + ' / 10' : null].filter(Boolean).join(' · '))))
+      : [h('p', { class: 'empty' }, needle ? 'Aucun verbatim ne contient ce texte.' : 'Aucune réponse libre à cette question.')]));
+  };
+  fill();
+  const words = topWords(rs.map(r => r[q.id] || '').filter(Boolean));
+  return [h('div', { class: 'chips', role: 'group', 'aria-label': 'Question' }, TEXTQ.map(t => h('button', { class: 'chip', type: 'button', 'aria-pressed': String(t.id === adm.vq), onclick: () => { adm.vq = t.id; renderAdmin(); } }, t.short, h('small', null, counts[t.id])))),
+    h('div', { class: 'grid' },
+      card('two-third', q.short, QBY[q.id].label + ' ' + plural(counts[q.id], 'réponse libre', 'réponses libres') + '.',
+        h('input', { class: 'ctl', type: 'search', id: 'v-search', placeholder: 'Rechercher dans les verbatims', 'aria-label': 'Rechercher dans les verbatims', value: adm.vsearch, oninput: e => { adm.vsearch = e.target.value; fill(); } }), listBox),
+      card('third', 'Termes les plus fréquents', 'Nombre de verbatims qui contiennent le mot', words.length ? hbars(words, words[0].v, v => String(v)) : h('p', { class: 'empty' }, 'Pas assez de texte pour faire ressortir des termes.')))];
+}
+function valueText(q, r) {
+  const v = r[q.id];
+  if (v == null || v === '' || (Array.isArray(v) && !v.length)) return '';
+  if (q.type === 'yn') return labelOf(YN, v);
+  if (q.type === 'sat') return labelOf(SAT, v);
+  if (q.type === 'multi') return v.map(x => labelOf(PRES, x)).join(', ');
+  if (q.type === 'note') return v + ' / 10';
+  return String(v);
+}
+function tabReponses(rs, isDemo) {
+  const s = adm.sort, key = { mois: r => r.mois || '', note: r => r.note ?? -1, formation: r => r.formation || '', infos: r => infoCount(r) }[s.k];
+  const rows = [...rs].sort((a, b) => { const x = key(a), y = key(b); return (x < y ? -1 : x > y ? 1 : 0) * s.d; });
+  const th = (k, label, num) => h('th', { class: num ? 'num' : null, 'aria-sort': s.k === k ? (s.d > 0 ? 'ascending' : 'descending') : null }, h('button', { type: 'button', onclick: () => { adm.sort = { k, d: s.k === k ? -s.d : -1 }; renderAdmin(); } }, label + (s.k === k ? (s.d > 0 ? ' ↑' : ' ↓') : '')));
+  const body = [];
+  for (const r of rows) {
+    body.push(h('tr', { class: 'clk', tabindex: 0, 'aria-expanded': String(adm.open === r.id), onclick: () => { adm.open = adm.open === r.id ? null : r.id; adm.del = null; renderAdmin(); }, onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.currentTarget.click(); } } },
+      h('td', null, monthLabel(r.mois, true)), h('td', null, r.formation || '–'), h('td', null, r.annee || '–'),
+      h('td', { class: 'num' }, r.note != null ? r.note + ' / 10' : '–'), h('td', { class: 'num' }, infoRate(r) == null ? '–' : infoCount(r) + ' / 8'),
+      h('td', null, valueText(QBY.tuteur, r) || '–'), h('td', null, valueText(QBY.objectifs_atteints, r) || '–'), h('td', null, valueText(QBY.difficultes, r) || '–')));
+    if (adm.open === r.id) body.push(h('tr', null, h('td', { colspan: 8 },
+      h('div', { class: 'detail' }, SECTIONS.map(sec => h('div', null, h('h4', null, sec.title), h('dl', null, Q.filter(q => q.section === sec.id).map(q => { const t = valueText(q, r); return t ? [h('dt', null, q.short), h('dd', null, t)] : null; }))))),
+      isDemo ? null : h('div', { style: 'display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 2px' },
+        adm.del === r.id ? [h('span', null, 'Supprimer définitivement cette réponse ?'), h('button', { class: 'btn small danger', type: 'button', onclick: async () => { try { await deleteResponse(r.id); adm.open = null; toast('Réponse supprimée'); } catch (e) { toast('Suppression impossible : ' + e.message); } } }, 'Supprimer'), h('button', { class: 'btn small', type: 'button', onclick: () => { adm.del = null; renderAdmin(); } }, 'Annuler')]
+          : h('button', { class: 'btn small danger', type: 'button', onclick: () => { adm.del = r.id; renderAdmin(); } }, 'Supprimer cette réponse')))));
+  }
+  return [card('', plural(rs.length, 'réponse') + ' individuelle' + (rs.length > 1 ? 's' : ''), 'Cliquez sur une ligne pour lire la réponse complète. Seul le mois est conservé, jamais le jour ni l’auteur.',
+    rows.length ? h('div', { class: 'tbl-wrap' }, h('table', null, h('thead', null, h('tr', null, th('mois', 'Mois'), th('formation', 'Formation'), h('th', null, 'Année'), th('note', 'Note', true), th('infos', 'Infos reçues', true), h('th', null, 'Tuteur'), h('th', null, 'Objectifs atteints'), h('th', null, 'Difficultés'))), h('tbody', null, body)))
+      : h('p', { class: 'empty' }, 'Aucune réponse pour ces filtres.'))];
+}
+
+/* ----- export ----- */
+function toCSV(rs) {
+  // a leading = + - @ tab or CR would make Excel run the cell as a formula: prefix it with an apostrophe
+  const esc = v => { let s = String(v ?? ''); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const head = ['Mois', ...Q.map(q => q.short)];
+  return '﻿' + [head, ...rs.map(r => [r.mois || '', ...Q.map(q => q.type === 'note' ? (r.note ?? '') : valueText(q, r))])].map(l => l.map(esc).join(';')).join('\r\n');
+}
+async function saveFile(filename, text, mime) {
+  if (store.mode === 'claude') {
+    if (!store.downloads) return toast('L’export n’est pas disponible dans cette vue.');
+    try { await store.downloads.save({ filename, data: text }); } catch (e) { if (e && e.code !== 'declined') toast('Export impossible ici.'); }
+    return;
+  }
+  const a = h('a', { href: URL.createObjectURL(new Blob([text], { type: mime })), download: filename }); document.body.append(a); a.click(); a.remove();
+}
+
+/* ----- board shell ----- */
+function renderAdmin() {
+  if (currentView !== 'admin') return;
+  if (responses == null) { app.replaceChildren(h('div', { class: 'board' }, h('p', { class: 'empty' }, 'Chargement des résultats…'))); return; }
+  const keep = document.activeElement && document.activeElement.id, y = window.scrollY;
+  const { rows, demo } = dataset(), rs = applyFilters(rows), f = adm.f;
+  const uniq = k => [...new Set(rows.map(r => r[k]).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr', { numeric: true }));
+  const months = [...new Set(rows.map(r => r.mois).filter(Boolean))].sort();
+  const fsel = (id, label, cur, opts, on) => h('label', null, label, h('select', { id, onchange: e => { on(e.target.value); renderAdmin(); } }, opts.map(([v, l]) => h('option', { value: v, selected: v === cur }, l))));
+  const stamp = new Date().toISOString().slice(0, 10);
+  const body = { synthese: tabSynthese, accueil: tabAccueil, apprentissage: tabApprentissage, croisees: tabCroisees, verbatims: tabVerbatims, reponses: r => tabReponses(r, demo) }[adm.tab](rs);
+  app.replaceChildren(h('div', { class: 'board' },
+    h('div', { class: 'board-head' },
+      h('div', null, h('p', { class: 'eyebrow' }, 'Espace cadre · Service d’hépato-gastro-entérologie'), h('h1', null, 'Résultats du questionnaire')),
+      h('div', { class: 'board-tools' },
+        store.mode === 'rest' ? h('button', { class: 'btn small', type: 'button', onclick: () => refreshRest(false) }, 'Actualiser') : null,
+        (store.mode === 'rest' || store.downloads) && rs.length && !demo ? [h('button', { class: 'btn small', type: 'button', onclick: () => saveFile('questionnaire-fin-de-stage-' + stamp + '.csv', toCSV(rs), 'text/csv;charset=utf-8') }, 'Exporter en CSV'),
+          h('button', { class: 'btn small', type: 'button', onclick: () => saveFile('questionnaire-fin-de-stage-' + stamp + '.json', JSON.stringify(rs, null, 2), 'application/json') }, 'Exporter en JSON')] : null,
+        store.mode === 'rest' ? [h('button', { class: 'btn small', type: 'button', onclick: () => window.print() }, 'Imprimer'), h('button', { class: 'btn small', type: 'button', onclick: async () => { try { await api('api/logout', { method: 'POST' }); } catch {} store.token = null; ss.del('fds-token'); responses = null; route(); } }, 'Se déconnecter')] : null)),
+    demo ? h('div', { class: 'banner' }, h('span', null, h('b', null, 'Données d’exemple. '), 'Aucune réponse n’a encore été enregistrée : ces 48 réponses fictives montrent le tableau de bord. Elles ne sont pas stockées et disparaissent dès la première vraie réponse.'), h('button', { class: 'btn small', type: 'button', onclick: () => { adm.demo = false; renderAdmin(); } }, 'Masquer les exemples'))
+      : (!rows.length ? h('div', { class: 'banner' }, h('span', null, h('b', null, 'Aucune réponse pour le moment. '), 'Les résultats apparaîtront ici dès le premier questionnaire envoyé.'), h('button', { class: 'btn small', type: 'button', onclick: () => { adm.demo = true; renderAdmin(); } }, 'Voir avec des exemples')) : null),
+    h('div', { class: 'filters' },
+      fsel('f-period', 'Période', f.period, [['all', 'Toute la période'], ['3', '3 derniers mois'], ['6', '6 derniers mois'], ['12', '12 derniers mois'], ['year', 'Année en cours'], ['custom', 'Personnalisée']], v => { f.period = v; if (v === 'custom') { f.from = f.from || months[0] || ''; f.to = f.to || months[months.length - 1] || ''; } }),
+      f.period === 'custom' ? [fsel('f-from', 'Du', f.from, months.map(m => [m, monthLabel(m, true)]), v => { f.from = v; if (f.to < v) f.to = v; }), fsel('f-to', 'Au', f.to, months.map(m => [m, monthLabel(m, true)]), v => { f.to = v; if (f.from > v) f.from = v; })] : null,
+      fsel('f-formation', 'Formation', f.formation, [['', 'Toutes'], ...uniq('formation').map(v => [v, v])], v => { f.formation = v; }),
+      fsel('f-annee', 'Année d’étude', f.annee, [['', 'Toutes'], ...uniq('annee').map(v => [v, v])], v => { f.annee = v; }),
+      h('span', { class: 'count' }, plural(rs.length, 'réponse') + (rs.length !== rows.length ? ' sur ' + rows.length : ''))),
+    h('div', { class: 'tabs', role: 'tablist' }, TABS.map(([id, label]) => h('button', { type: 'button', role: 'tab', id: 'tab-' + id, 'aria-selected': String(adm.tab === id), onclick: () => { adm.tab = id; renderAdmin(); } }, label))),
+    body));
+  if (keep) { const el = document.getElementById(keep); if (el) el.focus({ preventScroll: true }); }
+  window.scrollTo(0, y);
+}
+function showLogin(msg) {
+  app.replaceChildren(h('form', { class: 'login', onsubmit: async e => {
+    e.preventDefault(); const btn = $('button', e.target); btn.disabled = true;
+    try { const r = await api('api/login', { method: 'POST', body: JSON.stringify({ password: $('#pw').value }) }); store.token = r.token; ss.set('fds-token', r.token); route(); }
+    catch (err) { btn.disabled = false; $('#login-err').textContent = err.status === 401 ? 'Mot de passe incorrect.' : err.message; }
+  } },
+    h('p', { class: 'eyebrow' }, 'Espace cadre'), h('h1', null, 'Résultats du questionnaire'),
+    h('label', { class: 'field-label', for: 'pw' }, 'Mot de passe'),
+    h('input', { class: 'field', type: 'password', id: 'pw', autocomplete: 'current-password', required: true }),
+    h('p', { class: 'q-err', id: 'login-err', role: 'alert' }, msg || ''),
+    h('button', { class: 'btn primary', type: 'submit' }, 'Se connecter'),
+    h('a', { href: '#questionnaire', class: 'sub' }, 'Retour au questionnaire')));
+  $('#pw').focus();
+}
+
+/* ================= routing ================= */
+let currentView = null;
+const wantsAdmin = () => location.hash === '#resultats' || location.hash === '#admin' || (!location.hash && /\/admin\/?$/.test(location.pathname));
+function route() {
+  const admin = wantsAdmin();
+  $('#nav').hidden = !(store.isAdmin || (store.mode === 'rest' && store.token));
+  $('#nav-form').setAttribute('aria-current', admin ? 'false' : 'page');
+  $('#nav-admin').setAttribute('aria-current', admin ? 'page' : 'false');
+  if (!admin) { if (currentView !== 'form') { currentView = 'form'; showForm(); } else applyBackendToForm(); return; }
+  currentView = 'admin'; $('#progress').hidden = true;
+  if (store.mode === 'pending') { app.replaceChildren(h('div', { class: 'board' }, h('p', { class: 'empty' }, 'Chargement des résultats…'))); return; }
+  if (store.mode === 'rest') { if (!store.token) { currentView = 'login'; return showLogin(); } renderAdmin(); if (responses == null) startAdminFeed(); return; }
+  if (store.mode === 'claude' && store.isAdmin) { renderAdmin(); startAdminFeed(); return; }
+  currentView = 'denied';
+  app.replaceChildren(h('div', { class: 'sheet' }, h('p', { class: 'notice' }, 'Les résultats sont réservés au propriétaire et aux éditeurs de cette page.'), h('a', { class: 'btn', href: '#questionnaire' }, 'Aller au questionnaire')));
+}
+window.addEventListener('hashchange', route);
+route();
+ready.then(route);
+
+/* ================= tooltip ================= */
+const tip = $('#tip');
+function showTip(el, x, y) {
+  const d = el._tip; if (!d) return;
+  tip.replaceChildren(...[h('b', null, d.v), h('span', null, d.t), d.s ? h('span', { style: 'display:block;opacity:.75' }, d.s) : null].filter(Boolean));
+  tip.hidden = false;
+  const w = tip.offsetWidth, hh = tip.offsetHeight;
+  tip.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, x - w / 2)) + 'px';
+  tip.style.top = (y - hh - 14 < 8 ? y + 18 : y - hh - 14) + 'px';
+}
+document.addEventListener('pointermove', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el) showTip(el, e.clientX, e.clientY); else tip.hidden = true; });
+document.addEventListener('focusin', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el) { const r = el.getBoundingClientRect(); showTip(el, r.left + r.width / 2, r.top); } });
+document.addEventListener('focusout', () => { tip.hidden = true; });
+document.addEventListener('scroll', () => { tip.hidden = true; }, { passive: true });
+})();
+</script>

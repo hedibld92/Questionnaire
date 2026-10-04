@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Build (vérifie aussi les champs de server.js)
+        run: node build.js
+      - name: public/index.html doit être à jour
+        run: git diff --exit-code public/index.html
+      - run: npm test
